@@ -1,0 +1,16 @@
+{
+  "name": "deutro_portfolio",
+  "version": "1.0.0",
+  "description": "A collection of writings and design and drafting portfolio pieces.",
+  "license": "ISC",
+  "author": "Philip J. Price",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "ejs": "^6.0.1",
+    "express": "^5.2.1"
+  }
+}

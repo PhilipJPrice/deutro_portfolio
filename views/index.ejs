@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Deutro Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <!-- Inject the reusable global top bar component -->
+    <%- include('partials/topbar') %>
+
+    <div class="carousel-bounding-box">
+        <div class="container">
+            <div class="carousel">
+                <!-- 8 Distinct Cards (Change count by updating the CSS variables) -->
+                <div class="card" style="--index: 1;">
+                    <div class="card-number">1</div>
+                    <img src="/img/Birthday_Song_Cover.png" alt="Birthday Animation Cover Art">
+                    <div class="card-caption">
+                        <h3 class="card-title">Birthday Animation Video</h3>
+                        <p class="card-desc">A 'Happy Birthday' video with confetti and SFX.</p>
+                    </div>
+                </div>
+                <div class="card" style="--index: 2;">
+                    <div class="card-number">2</div>
+                    <img src="/img/Super_Divine_Cover.png" alt="Super Divine Animation Cover Art">
+                    <div class="card-caption">
+                        <h3 class="card-title">Super Divine Video</h3>
+                        <p class="card-desc">A Moroccan-inspired video with music.</p>
+                    </div>
+                </div>
+                <div class="card" style="--index: 3;">
+                    <div class="card-number">3</div>
+                    <img src="/img/Chess_Cover.png" alt="Staunton Chess Video Cover Art">
+                    <div class="card-caption">
+                        <h3 class="card-title">Staunton Chess Video</h3>
+                        <p class="card-desc">A Staunton chessboard video with music.</p>
+                    </div>
+                </div>
+                <div class="card" style="--index: 4;">
+                    <div class="card-number">4</div>
+                    <img src="/img/Diamond_Cover.png" alt="Glowing Diamond Cover Art">
+                    <div class="card-caption">
+                        <h3 class="card-title">Glowing Diamond</h3>
+                        <p class="card-desc">A part of the gem series.</p>
+                    </div>
+                </div>
+                <div class="card" style="--index: 5;">
+                    <div class="card-number">5</div>
+                    <img src="/img/The_Monkey_King_Cover.png" alt="Animated image of an asian man sitting on a couch.">
+                    <div class="card-caption">
+                        <h3 class="card-title">The Monkey King</h3>
+                        <p class="card-desc">A story of a schizophrenic man that falls in love.</p>
+                    </div>
+                </div>
+                <div class="card" style="--index: 6;">
+                    <div class="card-number">6</div>
+                    <img src="/img/Orb_Cover.png" alt="Image of golden light orb.">
+                    <div class="card-caption">
+                        <h3 class="card-title">After Life</h3>
+                        <p class="card-desc">A story of a golden light orb in the after life.</p>
+                    </div>
+                </div>
+                <div class="card" style="--index: 7;">
+                    <div class="card-number">7</div>
+                    <img src="/img/Avram_Moses_Cover.png" alt="Image of an Avram-Moses poster with leaves and a tree growing out of a book.">
+                    <div class="card-caption">
+                        <h3 class="card-title">Avram-Moses Poster</h3>
+                        <p class="card-desc">Poster of Avram-Moses in Hebrew with graphics.</p>
+                    </div>
+                </div>
+                <div class="card" style="--index: 8;">
+                    <div class="card-number">8</div>
+                    <img src="/img/Neon_Lightning_Cover.png" alt="Image of neon lightning with car and camera.">
+                    <div class="card-caption">
+                        <h3 class="card-title">Neon Lightning Poster</h3>
+                        <p class="card-desc">A poster of neon lightning, a car, and camera.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Main page content ── -->
+    <main class="page-content">
+
+        <!-- ── About ── -->
+        <section id="about" class="content-section">
+            <h2 class="section-heading">About</h2>
+            <div class="section-divider"></div>
+            <p class="section-body">
+                Write your About section here. Tell the world who you are, what drives your creative work,
+                and the story behind Deutro. This paragraph is your introduction — replace it with your own
+                voice and let your personality shine through.
+            </p>
+        </section>
+
+        <!-- ── Writings ── -->
+        <section id="writings" class="content-section">
+            <h2 class="section-heading">Writings</h2>
+            <div class="section-divider"></div>
+            <p class="section-body">
+                A collection of essays, stories, and editorial pieces. Each piece explores ideas at the
+                intersection of art, culture, and design.
+            </p>
+            <div class="work-grid">
+                <a href="writings/piece-1.html" class="work-card">
+                    <div class="work-card-img-wrap">
+                        <img src="https://picsum.photos/400/260?random=10" alt="Writing 1">
+                    </div>
+                    <div class="work-card-body">
+                        <h3 class="work-card-title">Writing Title One</h3>
+                        <p class="work-card-desc">A short description of this piece — the theme, tone, and what the reader will take away from it.</p>
+                    </div>
+                </a>
+                <a href="writings/piece-2.html" class="work-card">
+                    <div class="work-card-img-wrap">
+                        <img src="https://picsum.photos/400/260?random=11" alt="Writing 2">
+                    </div>
+                    <div class="work-card-body">
+                        <h3 class="work-card-title">Writing Title Two</h3>
+                        <p class="work-card-desc">A short description of this piece — the theme, tone, and what the reader will take away from it.</p>
+                    </div>
+                </a>
+                <a href="writings/piece-3.html" class="work-card">
+                    <div class="work-card-img-wrap">
+                        <img src="https://picsum.photos/400/260?random=12" alt="Writing 3">
+                    </div>
+                    <div class="work-card-body">
+                        <h3 class="work-card-title">Writing Title Three</h3>
+                        <p class="work-card-desc">A short description of this piece — the theme, tone, and what the reader will take away from it.</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- ── Animations ── -->
+        <section id="animations" class="content-section">
+            <h2 class="section-heading">Animations</h2>
+            <div class="section-divider"></div>
+            <p class="section-body">
+                Motion design and animated short films. From 2D character work to abstract motion graphics,
+                each piece brings ideas to life through movement.
+            </p>
+            <div class="work-grid">
+                <a href="/animations/birthday" class="work-card">
+                    <div class="work-card-img-wrap">
+                        <img src="/img/Work_Cards/Animations/Happy_Birthday_Cover.png" alt="Birthday Animation Cover Art">
+                    </div>
+                    <div class="work-card-body">
+                        <h3 class="work-card-title">Birthday Animation Video</h3>
+                        <p class="work-card-desc">A video featuring Happy Birthday lettering, balloons, confetti, and sound effects.</p>
+                        <div class="badge-row">
+                            <span class="sw-badge badge-blender">Blender</span>
+                            <span class="sw-badge badge-capcut">CapCut</span>
+                        </div>
+                    </div>
+                </a>
+                <a href="animations/anim-2.html" class="work-card">
+                    <div class="work-card-img-wrap">
+                        <img src="https://picsum.photos/400/260?random=21" alt="Animation 2">
+                    </div>
+                    <div class="work-card-body">
+                        <h3 class="work-card-title">Animation Title Two</h3>
+                        <p class="work-card-desc">Describe this animation — the concept, technique, and what inspired the motion and visual language.</p>
+                    </div>
+                </a>
+                <a href="animations/anim-3.html" class="work-card">
+                    <div class="work-card-img-wrap">
+                        <img src="https://picsum.photos/400/260?random=22" alt="Animation 3">
+                    </div>
+                    <div class="work-card-body">
+                        <h3 class="work-card-title">Animation Title Three</h3>
+                        <p class="work-card-desc">Describe this animation — the concept, technique, and what inspired the motion and visual language.</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- ── Illustrations ── -->
+        <section id="illustrations" class="content-section">
+            <h2 class="section-heading">Illustrations</h2>
+            <div class="section-divider"></div>
+            <p class="section-body">
+                Graphic design posters, digital illustrations, and visual art. Each piece is built around
+                a single strong idea expressed through color, form, and composition.
+            </p>
+            <div class="work-grid">
+                <a href="illustrations/illus-1.html" class="work-card">
+                    <div class="work-card-img-wrap">
+                        <img src="https://picsum.photos/400/260?random=30" alt="Illustration 1">
+                    </div>
+                    <div class="work-card-body">
+                        <h3 class="work-card-title">Illustration Title One</h3>
+                        <p class="work-card-desc">Describe the artwork — the medium, mood, and creative intention behind the piece.</p>
+                    </div>
+                </a>
+                <a href="illustrations/illus-2.html" class="work-card">
+                    <div class="work-card-img-wrap">
+                        <img src="https://picsum.photos/400/260?random=31" alt="Illustration 2">
+                    </div>
+                    <div class="work-card-body">
+                        <h3 class="work-card-title">Illustration Title Two</h3>
+                        <p class="work-card-desc">Describe the artwork — the medium, mood, and creative intention behind the piece.</p>
+                    </div>
+                </a>
+                <a href="illustrations/illus-3.html" class="work-card">
+                    <div class="work-card-img-wrap">
+                        <img src="https://picsum.photos/400/260?random=32" alt="Illustration 3">
+                    </div>
+                    <div class="work-card-body">
+                        <h3 class="work-card-title">Illustration Title Three</h3>
+                        <p class="work-card-desc">Describe the artwork — the medium, mood, and creative intention behind the piece.</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- ── Web Development ── -->
+        <section id="web-pages" class="content-section">
+            <h2 class="section-heading">Web Development</h2>
+            <div class="section-divider"></div>
+            <p class="section-body">
+                Interactive web experiences and page designs. Built with code and craft, these projects
+                explore what the browser can become as a creative canvas.
+            </p>
+            <div class="work-grid">
+                <a href="web/project-1.html" class="work-card">
+                    <div class="work-card-img-wrap">
+                        <img src="https://picsum.photos/400/260?random=40" alt="Web Page 1">
+                    </div>
+                    <div class="work-card-body">
+                        <h3 class="work-card-title">Web Project Title One</h3>
+                        <p class="work-card-desc">Describe the project — the purpose, design decisions, and technologies used to build it.</p>
+                    </div>
+                </a>
+                <a href="web/project-2.html" class="work-card">
+                    <div class="work-card-img-wrap">
+                        <img src="https://picsum.photos/400/260?random=41" alt="Web Page 2">
+                    </div>
+                    <div class="work-card-body">
+                        <h3 class="work-card-title">Web Project Title Two</h3>
+                        <p class="work-card-desc">Describe the project — the purpose, design decisions, and technologies used to build it.</p>
+                    </div>
+                </a>
+                <a href="web/project-3.html" class="work-card">
+                    <div class="work-card-img-wrap">
+                        <img src="https://picsum.photos/400/260?random=42" alt="Web Page 3">
+                    </div>
+                    <div class="work-card-body">
+                        <h3 class="work-card-title">Web Project Title Three</h3>
+                        <p class="work-card-desc">Describe the project — the purpose, design decisions, and technologies used to build it.</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>

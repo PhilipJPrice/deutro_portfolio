@@ -1,0 +1,392 @@
+:root {
+  --gold:           #CCAA4B;
+  --gold-glow:      rgba(204, 170, 75, 0.25);
+  --gold-glow-hover:rgba(204, 170, 75, 0.55);
+  --gold-border:    rgba(204, 170, 75, 0.18);
+  --bg:             #0b0c10;
+  --card-bg:        #13141a;
+  --text-primary:   #e8e0cc;
+  --text-muted:     #7a7060;
+
+  /* Change these settings to scale the slider */
+  --card-width: 300px;
+  --card-height: 400px;
+  --total-cards: 8;
+  --rotation-duration: 20s;
+  
+  /* Calculate radius out to the center point to avoid card clipping */
+  /* Formula roughly matches: (cardWidth / 2) / tan(180 / totalCards) */
+  --tz-distance: 380px; 
+}
+
+/* ── Reset & base ── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    background-color: #0b0c10;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0b0c10;
+  color: #CCAA4B;
+  padding: 10px 20px;
+}
+
+.logo {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: #CCAA4B;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-shadow: 0 0 14px rgba(204, 170, 75, 0.35);
+  transition: text-shadow 0.4s ease, filter 0.4s ease;
+}
+
+.logo:hover {
+    filter: brightness(1.2);
+    text-shadow: 0 0 24px rgba(204, 170, 75, 0.65);
+}
+
+.chat-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: 9999px;
+  border: 2px solid #CCAA4B;
+  background: rgba(204, 170, 75, 0.05);
+  box-shadow:
+    0 0 12px rgba(204, 170, 75, 0.2),
+    inset 0 0 10px rgba(204, 170, 75, 0.06);
+
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #CCAA4B;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+
+  transition: background 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease;
+  cursor: pointer;
+}
+
+.chat-btn-icon {
+  font-size: 15px;
+  line-height: 1;
+  color: #CCAA4B;
+}
+
+/* Hover — mirrors card hover: brightness lift + deeper gold glow */
+.chat-btn:hover {
+  filter: brightness(1.2);
+  background: rgba(204, 170, 75, 0.12);
+  box-shadow:
+    0 0 22px rgba(204, 170, 75, 0.45),
+    inset 0 0 14px rgba(204, 170, 75, 0.12);
+}
+
+.carousel-bounding-box {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* 1. Perspective stage viewport */
+.container {
+  width: 100%;
+  height: var(--card-height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px; /* Crucial for creating Coverflow visual depth */
+}
+
+/* 2. Rotating carousel wrapper ring */
+.carousel {
+  width: var(--card-width);
+  height: var(--card-height);
+  position: relative;
+  transform-style: preserve-3d; /* Tells elements to retain their 3D depth */
+  animation: spin var(--rotation-duration) linear infinite;
+}
+
+/* Pause carousel autoplay when a user hovers over any card */
+.carousel:hover {
+  animation-play-state: paused;
+}
+
+/* 3. Individual card configuration */
+.card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  backface-visibility: hidden; /* Prevents back-side flickering artifacting */
+  background-color: #13141a;
+
+  /* Flex column: number badge on top, image in middle, caption below */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* Each card gets a dynamic formula configuration mapped to its unique HTML index */
+  --angle: calc(360deg / var(--total-cards) * var(--index));
+  transform: rotateY(var(--angle)) translateZ(var(--tz-distance));
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+/* Gold numbered badge */
+.card-number {
+  flex-shrink: 0;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid #CCAA4B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  color: #CCAA4B;
+  letter-spacing: 0.01em;
+  /* Subtle gold glow to make it pop on dark cards */
+  box-shadow: 0 0 10px rgba(204, 170, 75, 0.25), inset 0 0 8px rgba(204, 170, 75, 0.06);
+  background: rgba(204, 170, 75, 0.05);
+  z-index: 1;
+}
+
+.card img {
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  object-fit: cover;
+  display: block;
+}
+
+/* Caption area below image */
+.card-caption {
+  flex-shrink: 0;
+  width: 100%;
+  padding: 10px 14px 14px;
+  background: #13141a;
+  box-sizing: border-box;
+}
+
+.card-title {
+  margin: 0 0 3px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: #e8e0cc;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-desc {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 11px;
+  color: #7a7060;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 4. Active item enhancements (Optional pop effect on hover) */
+.card:hover {
+  filter: brightness(1.2);
+  cursor: pointer;
+}
+
+/* 5. Endless Carousel Autoplay Loop Animation Keyframes */
+@keyframes spin {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(-360deg); /* Counter-clockwise infinite carousel spin */
+  }
+}
+
+/* ════════════════════════════════════════
+   PAGE CONTENT WRAPPER
+════════════════════════════════════════ */
+.page-content {
+  width: 100%;
+  max-width: 1100px;
+  padding: 0 32px 80px;
+}
+
+/* ════════════════════════════════════════
+   SECTION HEADING + DIVIDER
+════════════════════════════════════════ */
+.content-section {
+  padding-top: 64px;
+}
+
+.section-heading {
+  margin: 0 0 12px;
+  font-weight: 700;
+  font-size: clamp(24px, 3.5vw, 36px);
+  color: var(--gold);
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 18px var(--gold-glow);
+}
+
+/* Full-width gold underline */
+.section-divider {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--gold) 20%,
+    var(--gold) 80%,
+    transparent 100%
+  );
+  box-shadow: 0 0 10px var(--gold-glow);
+  margin-bottom: 28px;
+}
+
+.section-body {
+  margin: 0 0 40px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--text-primary);
+  max-width: 720px;
+}
+
+/* ════════════════════════════════════════
+   WORK GRID — Section cards
+════════════════════════════════════════ */
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 28px;
+}
+
+.work-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--card-bg);
+  border: 1px solid var(--gold-border);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.4);
+  text-decoration: none;
+  transition: filter 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+.work-card:hover {
+  filter: brightness(1.15);
+  border-color: rgba(204, 170, 75, 0.5);
+  box-shadow: 0 0 24px var(--gold-glow), 0 12px 36px rgba(0,0,0,0.5);
+}
+
+.work-card-img-wrap {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+.work-card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.work-card:hover .work-card-img-wrap img {
+  transform: scale(1.04);
+}
+
+.work-card-body {
+  padding: 18px 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.work-card-title {
+  margin: 0;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--gold);
+  letter-spacing: 0.03em;
+}
+
+.work-card-desc {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* ════════════════════════════════════════
+   SOFTWARE BADGES
+════════════════════════════════════════ */
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.sw-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  border: 1px solid;
+  white-space: nowrap;
+}
+
+.sw-badge svg { width: 12px; height: 12px; flex-shrink: 0; }
+
+/* Individual tool color themes */
+.badge-blender     { background: #1A1A2E; border-color: #4A4AFF; color: #9999FF; }
+.badge-autocad     { background: #1C0A00; border-color: #D4380D; color: #FF7A45; }
+.badge-illustrator { background: #1A0A2E; border-color: #9933CC; color: #CC66FF; }
+.badge-inkscape    { background: #001A1A; border-color: #009999; color: #33CCCC; }
+.badge-capcut      { background: #0A0A0A; border-color: #555555; color: #BBBBBB; }
+.badge-davinci     { background: #1A0A00; border-color: #CC6600; color: #FF9933; }
+.badge-html        { background: #1A0800; border-color: #CC3300; color: #FF6633; }
+.badge-css         { background: #00081A; border-color: #0055CC; color: #4499FF; }
+.badge-js          { background: #1A1700; border-color: #CCAA00; color: #FFDD00; }
+.badge-affinity    { background: #001A0A; border-color: #00AA55; color: #33DD88; }
+.badge-canva       { background: #00081A; border-color: #0066FF; color: #4499FF; }
+.badge-gsap        { background: #001A0D; border-color: #00CC66; color: #33FF99; }
+.badge-threejs     { background: #0A0A0A; border-color: #FFFFFF; color: #FFFFFF; }
+.badge-photoshop   { background: #001833; border-color: #0078D4; color: #4DAAFF; }
+.badge-indesign    { background: #1A0020; border-color: #CC00AA; color: #FF44DD; }
+.badge-adobe       { background: #1A0000; border-color: #FF0000; color: #FF6666; }
