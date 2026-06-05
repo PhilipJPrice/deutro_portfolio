@@ -2,15 +2,225 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Deutro Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Animation — Deutro</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        /* ── Page layout ── */
+        .project-page {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 48px 32px 96px;
+        }
+
+        /* ── Breadcrumb ── */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 36px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .breadcrumb a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+        .breadcrumb a:hover { opacity: 0.7; }
+        .breadcrumb-sep { color: var(--gold-border); }
+
+        /* ── Project header ── */
+        .project-header {
+            margin-bottom: 40px;
+        }
+        .project-eyebrow {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin: 0 0 12px;
+            opacity: 0.75;
+        }
+        .project-title {
+            font-size: clamp(28px, 5vw, 52px);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 16px;
+            line-height: 1.15;
+            letter-spacing: -0.01em;
+        }
+        .project-title span {
+            color: var(--gold);
+            text-shadow: 0 0 28px rgba(204, 170, 75, 0.45);
+        }
+        .project-desc {
+            font-size: 16px;
+            line-height: 1.75;
+            color: var(--text-muted);
+            max-width: 620px;
+            margin: 0 0 24px;
+        }
+        .project-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 0;
+        }
+
+        /* ── Gold divider ── */
+        .gold-rule {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg,
+                var(--gold) 0%,
+                rgba(204,170,75,0.3) 60%,
+                transparent 100%);
+            box-shadow: 0 0 8px rgba(204,170,75,0.2);
+            margin: 32px 0 40px;
+        }
+
+        /* ── Video section ── */
+        .video-section {
+            position: relative;
+        }
+
+        /* Ambient glow layer behind the video */
+        .video-glow {
+            position: absolute;
+            inset: -18px;
+            border-radius: 28px;
+            background: radial-gradient(
+                ellipse at 50% 50%,
+                rgba(204, 170, 75, 0.18) 0%,
+                rgba(204, 170, 75, 0.06) 45%,
+                transparent 75%
+            );
+            filter: blur(24px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Decorative corner accents */
+        .video-frame {
+            position: relative;
+            z-index: 1;
+            border-radius: 18px;
+            padding: 3px;
+            background: linear-gradient(
+                135deg,
+                rgba(204,170,75,0.9) 0%,
+                rgba(204,170,75,0.3) 30%,
+                rgba(204,170,75,0.1) 50%,
+                rgba(204,170,75,0.3) 70%,
+                rgba(204,170,75,0.9) 100%
+            );
+            box-shadow:
+                0 0 0 1px rgba(204,170,75,0.12),
+                0 8px 40px rgba(0,0,0,0.7),
+                0 0 60px rgba(204,170,75,0.12),
+                inset 0 0 0 1px rgba(204,170,75,0.06);
+        }
+
+        .video-inner {
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            /* Lock to 16:9 — matches the video's native ratio, eliminates letterbox bars */
+            aspect-ratio: 16 / 9;
+            line-height: 0;
+        }
+
+        video {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+
+        /* Shimmer sweep on hover */
+        .video-inner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                105deg,
+                transparent 30%,
+                rgba(204,170,75,0.07) 50%,
+                transparent 70%
+            );
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            border-radius: 16px;
+        }
+        .video-frame:hover .video-inner::after { opacity: 1; }
+
+        /* ── Responsive ── */
+        @media (max-width: 600px) {
+            .project-page { padding: 32px 16px 64px; }
+            .video-glow { inset: -10px; }
+            .video-frame { border-radius: 14px; padding: 2px; }
+            .video-inner, video { border-radius: 12px; }
+        }
+    </style>
 </head>
 <body>
-    <!-- Inject the reusable global top bar component -->
     <%- include('../partials/topbar') %>
 
+    <div class="project-page">
+
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span class="breadcrumb-sep">›</span>
+            <a href="/#animations">Animations</a>
+            <span class="breadcrumb-sep">›</span>
+            <span>Birthday Animation</span>
+        </nav>
+
+        <!-- Header -->
+        <header class="project-header">
+            <p class="project-eyebrow">Animation · 2024</p>
+            <h1 class="project-title">Happy Birthday</h1>
+            <p class="project-desc">
+                A celebratory animation featuring 3D gold lettering, floating balloons,
+                cascading confetti, and a custom sound effect mix — built entirely in Blender
+                and finished in CapCut.
+            </p>
+            <div class="project-meta">
+                <span class="sw-badge badge-blender">Blender</span>
+                <span class="sw-badge badge-capcut">CapCut</span>
+            </div>
+        </header>
+
+        <div class="gold-rule"></div>
+
+        <!-- Video -->
+        <section class="video-section" aria-label="Birthday Animation Video">
+            <div class="video-glow"></div>
+            <div class="video-frame">
+                <div class="video-inner">
+                    <video
+                        controls
+                        preload="metadata"
+                        poster="/img/Birthday_Song_Cover.png"
+                        aria-label="Happy Birthday animation video"
+                    >
+                        <source src="/mp4/Birthday_Song.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+        </section>
+
+    </div>
 </body>
 </html>
