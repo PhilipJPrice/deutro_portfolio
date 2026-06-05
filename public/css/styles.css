@@ -25,17 +25,24 @@
 html { scroll-behavior: smooth; }
 
 body {
-    margin: 0;
-    background-color: #0b0c10;
+  margin: 0;
+  background-color: #0b0c10;
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
 }
 
 .topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #0b0c10;
-  color: #CCAA4B;
-  padding: 10px 20px;
+  padding: 12px 20px;
+  background-color: var(--bg);
+  border-bottom: 1px solid var(--gold-border);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  backdrop-filter: blur(10px);
 }
 
 .logo {
@@ -92,6 +99,9 @@ body {
     inset 0 0 14px rgba(204, 170, 75, 0.12);
 }
 
+/* ════════════════════════════════════════
+   3D CAROUSEL — DESKTOP
+════════════════════════════════════════ */
 .carousel-bounding-box {
   min-height: 100vh;
   display: flex;
@@ -136,6 +146,7 @@ body {
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
   backface-visibility: hidden; /* Prevents back-side flickering artifacting */
   background-color: #13141a;
+  text-decoration: none;
 
   /* Flex column: number badge on top, image in middle, caption below */
   display: flex;
@@ -229,6 +240,82 @@ body {
 }
 
 /* ════════════════════════════════════════
+   MOBILE CAROUSEL — flat swipeable strip
+════════════════════════════════════════ */
+.mobile-carousel-wrap {
+  display: none; /* shown only on mobile via media query */
+  padding: 24px 0 32px;
+  background: var(--bg);
+}
+
+.mobile-carousel-track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 8px 24px 16px;
+  scrollbar-width: none;
+}
+.mobile-carousel-track::-webkit-scrollbar { display: none; }
+
+.mobile-card {
+  flex: 0 0 72vw;
+  max-width: 300px;
+  scroll-snap-align: center;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--card-bg);
+  border: 1px solid var(--gold-border);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.5);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: filter 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.mobile-card:active { filter: brightness(1.2); }
+
+.mobile-card .card-number {
+  position: static;
+  margin-top: 14px;
+  margin-bottom: 14px;
+  width: 38px; height: 38px;
+  font-size: 15px;
+}
+
+.mobile-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+.mobile-card .card-caption {
+  width: 100%;
+  padding: 10px 14px 14px;
+}
+
+/* Swipe hint dots */
+.mobile-carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+.mobile-carousel-dots span {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold-border);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.mobile-carousel-dots span.active {
+  background: var(--gold);
+  transform: scale(1.35);
+}
+
+/* ════════════════════════════════════════
    PAGE CONTENT WRAPPER
 ════════════════════════════════════════ */
 .page-content {
@@ -280,6 +367,53 @@ body {
   line-height: 1.75;
   color: var(--text-primary);
   max-width: 720px;
+}
+
+/* ════════════════════════════════════════
+   TABLE OF CONTENTS
+════════════════════════════════════════ */
+.toc {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  margin-left: -50vw;
+  display: flex;
+  justify-content: center;
+  background: rgba(11, 12, 16, 0.95);
+  border-top: 1px solid var(--gold-border);
+  border-bottom: 1px solid var(--gold-border);
+  position: sticky;
+  top: 53px;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.toc::-webkit-scrollbar { display: none; }
+
+.toc-link {
+  flex: 1;
+  min-width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 12px;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-right: 1px solid var(--gold-border);
+  white-space: nowrap;
+  transition: color 0.3s ease, background 0.3s ease, text-shadow 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.toc-link:last-child { border-right: none; }
+.toc-link:hover, .toc-link.active {
+  color: var(--gold);
+  background: rgba(204, 170, 75, 0.07);
+  text-shadow: 0 0 12px var(--gold-glow);
 }
 
 /* ════════════════════════════════════════
@@ -390,3 +524,35 @@ body {
 .badge-photoshop   { background: #001833; border-color: #0078D4; color: #4DAAFF; }
 .badge-indesign    { background: #1A0020; border-color: #CC00AA; color: #FF44DD; }
 .badge-adobe       { background: #1A0000; border-color: #FF0000; color: #FF6666; }
+
+/* ════════════════════════════════════════
+   MOBILE RESPONSIVE
+════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* Hide 3D carousel, show flat swipeable one */
+  .carousel-bounding-box { display: none; }
+  .mobile-carousel-wrap  { display: block; }
+
+  /* Topbar: shrink Let's Chat text on very small screens */
+  .chat-btn { padding: 8px 14px; font-size: 13px; }
+  .logo { font-size: 18px; }
+
+  /* TOC scrolls horizontally instead of wrapping */
+  .toc { justify-content: flex-start; top: 49px; }
+  .toc-link { font-size: 11px; padding: 12px 14px; min-width: 100px; }
+
+  /* Page padding tighter on mobile */
+  .page-content { padding: 0 16px 60px; }
+  .content-section { padding-top: 48px; }
+  .section-body { font-size: 15px; }
+
+  /* Work grid: single column on small screens */
+  .work-grid { grid-template-columns: 1fr; gap: 16px; }
+}
+
+@media (max-width: 480px) {
+  .chat-btn-label { display: none; } /* keep only the envelope icon */
+  .chat-btn { padding: 8px 12px; gap: 0; }
+  .mobile-card { flex: 0 0 82vw; }
+}

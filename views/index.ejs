@@ -16,14 +16,14 @@
         <div class="container">
             <div class="carousel">
                 <!-- 8 Distinct Cards (Change count by updating the CSS variables) -->
-                <div class="card" style="--index: 1;">
+                <a href="/animations/birthday" class="card" style="--index: 1;">
                     <div class="card-number">1</div>
                     <img src="/img/Birthday_Song_Cover.png" alt="Birthday Animation Cover Art">
                     <div class="card-caption">
                         <h3 class="card-title">Birthday Animation Video</h3>
                         <p class="card-desc">A 'Happy Birthday' video with confetti and SFX.</p>
                     </div>
-                </div>
+                </a>
                 <div class="card" style="--index: 2;">
                     <div class="card-number">2</div>
                     <img src="/img/Super_Divine_Cover.png" alt="Super Divine Animation Cover Art">
@@ -84,6 +84,78 @@
         </div>
     </div>
 
+    <!-- ── MOBILE: flat swipeable carousel ── -->
+    <div class="mobile-carousel-wrap">
+        <div class="mobile-carousel-track" id="mobileTrack">
+            <a href="/animations/birthday" class="mobile-card">
+                <div class="card-number">1</div>
+                <img src="/img/Birthday_Song_Cover.png" alt="Birthday Animation Cover Art">
+                <div class="card-caption">
+                    <h3 class="card-title">Birthday Animation Video</h3>
+                    <p class="card-desc">A 'Happy Birthday' video with confetti and SFX.</p>
+                </div>
+            </a>
+            <a href="#" class="mobile-card">
+                <div class="card-number">2</div>
+                <img src="/img/Super_Divine_Cover.png" alt="Super Divine Animation Cover Art">
+                <div class="card-caption">
+                    <h3 class="card-title">Super Divine Video</h3>
+                    <p class="card-desc">A Moroccan-inspired video with music.</p>
+                </div>
+            </a>
+            <a href="#" class="mobile-card">
+                <div class="card-number">3</div>
+                <img src="/img/Chess_Cover.png" alt="Staunton Chess Video Cover Art">
+                <div class="card-caption">
+                    <h3 class="card-title">Staunton Chess Video</h3>
+                    <p class="card-desc">A Staunton chessboard video with music.</p>
+                </div>
+            </a>
+            <a href="#" class="mobile-card">
+                <div class="card-number">4</div>
+                <img src="/img/Diamond_Cover.png" alt="Glowing Diamond Cover Art">
+                <div class="card-caption">
+                    <h3 class="card-title">Glowing Diamond</h3>
+                    <p class="card-desc">A part of the gem series.</p>
+                </div>
+            </a>
+            <a href="#" class="mobile-card">
+                <div class="card-number">5</div>
+                <img src="/img/The_Monkey_King_Cover.png" alt="The Monkey King cover.">
+                <div class="card-caption">
+                    <h3 class="card-title">The Monkey King</h3>
+                    <p class="card-desc">A story of a schizophrenic man that falls in love.</p>
+                </div>
+            </a>
+            <a href="#" class="mobile-card">
+                <div class="card-number">6</div>
+                <img src="/img/Orb_Cover.png" alt="Golden light orb.">
+                <div class="card-caption">
+                    <h3 class="card-title">After Life</h3>
+                    <p class="card-desc">A story of a golden light orb in the after life.</p>
+                </div>
+            </a>
+            <a href="#" class="mobile-card">
+                <div class="card-number">7</div>
+                <img src="/img/Avram_Moses_Cover.png" alt="Avram-Moses poster.">
+                <div class="card-caption">
+                    <h3 class="card-title">Avram-Moses Poster</h3>
+                    <p class="card-desc">Poster of Avram-Moses in Hebrew with graphics.</p>
+                </div>
+            </a>
+            <a href="#" class="mobile-card">
+                <div class="card-number">8</div>
+                <img src="/img/Neon_Lightning_Cover.png" alt="Neon lightning poster.">
+                <div class="card-caption">
+                    <h3 class="card-title">Neon Lightning Poster</h3>
+                    <p class="card-desc">A poster of neon lightning, a car, and camera.</p>
+                </div>
+            </a>
+        </div>
+        <!-- Position indicator dots -->
+        <div class="mobile-carousel-dots" id="mobileDots"></div>
+    </div>
+
     <!-- ── Main page content ── -->
     <main class="page-content">
 
@@ -97,6 +169,14 @@
                 voice and let your personality shine through.
             </p>
         </section>
+
+        <!-- Table of Contents -->
+        <nav class="toc" id="toc" aria-label="Portfolio sections">
+            <a href="#writings"      class="toc-link">Writings</a>
+            <a href="#animations"    class="toc-link">Animations</a>
+            <a href="#illustrations" class="toc-link">Illustrations</a>
+            <a href="#web-pages"     class="toc-link">Web Development</a>
+        </nav>
 
         <!-- ── Writings ── -->
         <section id="writings" class="content-section">
@@ -260,5 +340,66 @@
 
     </main>
 
+    <script>
+        // ── TOC smooth scroll with sticky offset ──
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (!target) return;
+                const tocH = document.querySelector('.toc').offsetHeight;
+                const topbarH = document.querySelector('.topbar').offsetHeight;
+                const top = target.getBoundingClientRect().top + window.scrollY - topbarH - tocH - 8;
+                window.scrollTo({ top, behavior: 'smooth' });
+            });
+        });
+
+        // ── TOC active section highlight ──
+        const sections = document.querySelectorAll('.content-section[id]');
+        const tocLinks = document.querySelectorAll('.toc-link');
+        new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    tocLinks.forEach(l => l.classList.remove('active'));
+                    const a = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
+                    if (a) a.classList.add('active');
+                }
+            });
+        }, { rootMargin: '-25% 0px -65% 0px' }).observe
+            && sections.forEach(s => new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        tocLinks.forEach(l => l.classList.remove('active'));
+                        const a = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
+                        if (a) a.classList.add('active');
+                    }
+                });
+            }, { rootMargin: '-25% 0px -65% 0px' }).observe(s));
+
+        // ── Mobile carousel dot indicators ──
+        const track = document.getElementById('mobileTrack');
+        const dotsContainer = document.getElementById('mobileDots');
+
+        if (track && dotsContainer) {
+            const cards = track.querySelectorAll('.mobile-card');
+            // Build dots
+            cards.forEach((_, i) => {
+                const dot = document.createElement('span');
+                if (i === 0) dot.classList.add('active');
+                dotsContainer.appendChild(dot);
+            });
+
+            const dots = dotsContainer.querySelectorAll('span');
+
+            // Update active dot on scroll
+            track.addEventListener('scroll', () => {
+                const scrollLeft = track.scrollLeft;
+                const cardWidth = cards[0].offsetWidth + 16; // gap
+                const index = Math.round(scrollLeft / cardWidth);
+                dots.forEach((d, i) => d.classList.toggle('active', i === index));
+            }, { passive: true });
+        }
+    </script>
+    
 </body>
 </html>
