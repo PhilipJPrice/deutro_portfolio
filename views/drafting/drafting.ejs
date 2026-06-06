@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drafting — Deutro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+
+    <!-- PDF.js from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+    <style>
+        .project-page {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 48px 32px 96px;
+        }
+
+        /* ── Breadcrumb ── */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 36px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .breadcrumb a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+        .breadcrumb a:hover { opacity: 0.7; }
+        .breadcrumb-sep { color: var(--gold-border); }
+
+        /* ── Header ── */
+        .project-eyebrow {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: 0.75;
+            margin: 0 0 12px;
+        }
+        .project-title {
+            font-size: clamp(28px, 4.5vw, 48px);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 12px;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        .project-title span {
+            color: var(--gold);
+            text-shadow: 0 0 28px rgba(204,170,75,0.4);
+        }
+        .project-desc {
+            font-size: 16px;
+            line-height: 1.75;
+            color: var(--text-muted);
+            max-width: 680px;
+            margin: 0 0 8px;
+        }
+
+        /* ── Gold rule ── */
+        .gold-rule {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, var(--gold) 0%, rgba(204,170,75,0.3) 60%, transparent 100%);
+            box-shadow: 0 0 8px rgba(204,170,75,0.2);
+            margin: 28px 0 36px;
+        }
+
+        /* ── PDF Viewer Layout ── */
+        .pdf-viewer-wrap {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        /* ── Thumbnail sidebar ── */
+        .pdf-sidebar {
+            position: sticky;
+            top: 110px;
+            max-height: calc(100vh - 140px);
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(204,170,75,0.3) transparent;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-right: 4px;
+        }
+        .pdf-sidebar::-webkit-scrollbar { width: 4px; }
+        .pdf-sidebar::-webkit-scrollbar-thumb { background: rgba(204,170,75,0.3); border-radius: 4px; }
+
+        .pdf-thumb-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--gold-border);
+            border-radius: 8px;
+            padding: 8px;
+            cursor: pointer;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            text-align: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .pdf-thumb-btn:hover {
+            border-color: rgba(204,170,75,0.45);
+            box-shadow: 0 0 14px rgba(204,170,75,0.15);
+        }
+        .pdf-thumb-btn.active {
+            border-color: var(--gold);
+            box-shadow: 0 0 18px rgba(204,170,75,0.25);
+            background: rgba(204,170,75,0.06);
+        }
+        .pdf-thumb-btn canvas {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            display: block;
+        }
+        .pdf-thumb-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.04em;
+            line-height: 1.3;
+        }
+        .pdf-thumb-btn.active .pdf-thumb-label { color: var(--gold); }
+        .pdf-thumb-num {
+            font-size: 9px;
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+
+        /* ── Main canvas panel ── */
+        .pdf-main {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Controls bar */
+        .pdf-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 12px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--gold-border);
+            border-radius: 10px;
+        }
+
+        .pdf-nav-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pdf-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 7px 14px;
+            border-radius: 8px;
+            border: 1.5px solid var(--gold-border);
+            background: rgba(204,170,75,0.05);
+            color: var(--gold);
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            cursor: pointer;
+            transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .pdf-btn:hover:not(:disabled) {
+            border-color: rgba(204,170,75,0.6);
+            background: rgba(204,170,75,0.1);
+            box-shadow: 0 0 12px rgba(204,170,75,0.18);
+        }
+        .pdf-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .pdf-page-info {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            white-space: nowrap;
+        }
+        .pdf-page-info span { color: var(--gold); }
+
+        .pdf-page-name {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 0.04em;
+            text-align: right;
+        }
+
+        /* Canvas frame */
+        .pdf-canvas-frame {
+            position: relative;
+            border-radius: 14px;
+            padding: 3px;
+            background: linear-gradient(135deg,
+                rgba(204,170,75,0.85) 0%,
+                rgba(204,170,75,0.25) 35%,
+                rgba(204,170,75,0.08) 50%,
+                rgba(204,170,75,0.25) 65%,
+                rgba(204,170,75,0.85) 100%
+            );
+            box-shadow: 0 0 50px rgba(204,170,75,0.1), 0 16px 48px rgba(0,0,0,0.6);
+        }
+        .pdf-canvas-frame::before {
+            /* Ambient glow behind frame */
+            content: '';
+            position: absolute;
+            inset: -16px;
+            border-radius: 24px;
+            background: radial-gradient(ellipse at 50% 50%,
+                rgba(204,170,75,0.12) 0%,
+                rgba(204,170,75,0.04) 50%,
+                transparent 75%
+            );
+            filter: blur(20px);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .pdf-canvas-inner {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            line-height: 0;
+        }
+
+        #pdfCanvas {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        /* Loading state */
+        .pdf-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .pdf-loading-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--gold);
+            animation: pulse 1.2s ease-in-out infinite;
+        }
+        .pdf-loading-dot:nth-child(2) { animation-delay: 0.2s; }
+        .pdf-loading-dot:nth-child(3) { animation-delay: 0.4s; }
+        .pdf-loading-dots {
+            display: flex;
+            gap: 8px;
+        }
+        .pdf-loading-text {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+        }
+        @keyframes pulse {
+            0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+            40%            { opacity: 1;   transform: scale(1); }
+        }
+
+        /* Zoom controls */
+        .pdf-zoom-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .pdf-zoom-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            color: var(--text-muted);
+            min-width: 38px;
+            text-align: center;
+        }
+
+        /* Badges */
+        .header-badges { margin-top: 16px; }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .pdf-viewer-wrap {
+                grid-template-columns: 1fr;
+            }
+            .pdf-sidebar {
+                position: static;
+                max-height: none;
+                flex-direction: row;
+                overflow-x: auto;
+                overflow-y: hidden;
+                flex-wrap: nowrap;
+                padding-right: 0;
+                padding-bottom: 4px;
+            }
+            .pdf-thumb-btn {
+                flex-shrink: 0;
+                width: 80px;
+            }
+        }
+        @media (max-width: 480px) {
+            .project-page { padding: 28px 14px 60px; }
+            .pdf-controls { padding: 10px 12px; }
+            .pdf-page-name { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <%- include('../partials/topbar') %>
+
+    <div class="project-page">
+
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span class="breadcrumb-sep">›</span>
+            <a href="/#drafting">Drafting</a>
+            <span class="breadcrumb-sep">›</span>
+            <span>AutoCAD Portfolio</span>
+        </nav>
+
+        <!-- Header -->
+        <header>
+            <p class="project-eyebrow">Technical Drafting · CAD</p>
+            <h1 class="project-title">AutoCAD Portfolio - 2021</h1>
+            <p class="project-desc">
+                A collection of 31 technical drawings produced in AutoCAD LT 2021, spanning mechanical
+                parts, geometric constructions, architectural outlines, and precision object studies.
+                Each drawing demonstrates drafting accuracy, line quality, and technical discipline.
+            </p>
+            <div class="header-badges badge-row">
+                <span class="sw-badge badge-autocad">AutoCAD</span>
+            </div>
+        </header>
+
+        <div class="gold-rule"></div>
+
+        <!-- ── PDF Viewer ── -->
+        <div class="pdf-viewer-wrap">
+
+            <!-- Thumbnail sidebar -->
+            <aside class="pdf-sidebar" id="pdfSidebar" aria-label="Page thumbnails">
+                <!-- Thumbnails injected by JS -->
+            </aside>
+
+            <!-- Main viewer -->
+            <section class="pdf-main" aria-label="Drawing viewer">
+
+                <!-- Controls -->
+                <div class="pdf-controls">
+                    <div class="pdf-nav-group">
+                        <button class="pdf-btn" id="btnFirst"  title="First page">&laquo;</button>
+                        <button class="pdf-btn" id="btnPrev"   title="Previous page">&#8592; Prev</button>
+                        <span   class="pdf-page-info">
+                            Page <span id="currentPage">1</span> of <span id="totalPages">—</span>
+                        </span>
+                        <button class="pdf-btn" id="btnNext"   title="Next page">Next &#8594;</button>
+                        <button class="pdf-btn" id="btnLast"   title="Last page">&raquo;</button>
+                    </div>
+
+                    <div class="pdf-zoom-group">
+                        <button class="pdf-btn" id="btnZoomOut" title="Zoom out">&#8722;</button>
+                        <span   class="pdf-zoom-label" id="zoomLabel">100%</span>
+                        <button class="pdf-btn" id="btnZoomIn"  title="Zoom in">&#43;</button>
+                        <button class="pdf-btn" id="btnFit"     title="Fit to width">Fit</button>
+                    </div>
+
+                    <div class="pdf-page-name" id="pageName">Geometry Drawing</div>
+                </div>
+
+                <!-- Loading state (shown until PDF loads) -->
+                <div class="pdf-loading" id="pdfLoading">
+                    <div class="pdf-loading-dots">
+                        <div class="pdf-loading-dot"></div>
+                        <div class="pdf-loading-dot"></div>
+                        <div class="pdf-loading-dot"></div>
+                    </div>
+                    <p class="pdf-loading-text">Loading drawings…</p>
+                </div>
+
+                <!-- Canvas frame (hidden until loaded) -->
+                <div class="pdf-canvas-frame" id="pdfFrame" style="display:none;">
+                    <div class="pdf-canvas-inner">
+                        <canvas id="pdfCanvas"></canvas>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+
+    </div>
+
+    <script>
+        // Page names from the PDF (pages 1–31 have content; 32–39 are blank)
+        const PAGE_NAMES = [
+            'Geometry Drawing',    // 1
+            'Geometry Drawing',    // 2
+            'Geometry Drawing',    // 3
+            'Banister Outline',    // 4
+            'Pawn Outline',        // 5
+            'Mouse Outline',       // 6
+            'Bracket Outline',     // 7
+            'Door Knob Outline',   // 8
+            'Spacer Outline',      // 9
+            'Gasket Outline',      // 10
+            'Mechanical Part 1',   // 11
+            'Key Outline',         // 12
+            'Mechanical Part 2',   // 13
+            'Generic Outline 1',   // 14
+            'Mechanical Part 3',   // 15
+            'Generic Outline 2',   // 16
+            'Gear Outline 1',      // 17
+            'Generic Outline 3',   // 18
+            'Bracket Outline 2',   // 19
+            'Generic Outline 4',   // 20
+            'Generic Outline 5',   // 21
+            'Spacer Outline 2',    // 22
+            'Sink Outline',        // 23
+            'Mechanical Part 4',   // 24
+            'Generic Outline 6',   // 25
+            'Gear Outline 2',      // 26
+            'Generic Outline 7',   // 27
+            'Gasket Outline 2',    // 28
+            'Door Knob Outline 2', // 29
+            'Bottle Outline',      // 30
+            'Wrench Outline',      // 31
+            'Door Bell Circuit',      // 32
+            'Full House Plan',      // 33
+            'Floor Plan',      // 34
+            'Floor Elevation',      // 35
+            'East Elevation',      // 36
+            'East West Elevation',      // 37
+            'Foundation Plan',      // 38
+            'Stair Plan',      // 39
+
+
+        ];
+
+        const TOTAL_NAMED = PAGE_NAMES.length; // 31
+
+        // Configure PDF.js worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc =
+            'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        const PDF_URL    = '/pdf/AutoCAD_Portfolio_Book.pdf';
+        const canvas     = document.getElementById('pdfCanvas');
+        const ctx        = canvas.getContext('2d');
+        const sidebar    = document.getElementById('pdfSidebar');
+        const loading    = document.getElementById('pdfLoading');
+        const frame      = document.getElementById('pdfFrame');
+        const elCurrent  = document.getElementById('currentPage');
+        const elTotal    = document.getElementById('totalPages');
+        const elName     = document.getElementById('pageName');
+        const elZoom     = document.getElementById('zoomLabel');
+
+        let pdfDoc      = null;
+        let currentPage = 1;
+        let scale       = 1.5;
+        let rendering   = false;
+
+        // Render a page to the main canvas
+        async function renderPage(num) {
+            if (rendering) return;
+            rendering = true;
+
+            const page     = await pdfDoc.getPage(num);
+            const viewport = page.getViewport({ scale });
+
+            canvas.width  = viewport.width;
+            canvas.height = viewport.height;
+
+            await page.render({ canvasContext: ctx, viewport }).promise;
+
+            rendering = false;
+
+            // Update UI
+            elCurrent.textContent = num;
+            elName.textContent    = PAGE_NAMES[num - 1] || `Page ${num}`;
+            updateButtons();
+            highlightThumb(num);
+
+            // Scroll active thumb into view
+            const activeThumb = sidebar.querySelector('.pdf-thumb-btn.active');
+            if (activeThumb) activeThumb.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+
+        function updateButtons() {
+            document.getElementById('btnFirst').disabled = currentPage <= 1;
+            document.getElementById('btnPrev').disabled  = currentPage <= 1;
+            document.getElementById('btnNext').disabled  = currentPage >= TOTAL_NAMED;
+            document.getElementById('btnLast').disabled  = currentPage >= TOTAL_NAMED;
+            elZoom.textContent = Math.round(scale * 100 / 1.5 * 100) + '%';
+        }
+
+        function highlightThumb(num) {
+            sidebar.querySelectorAll('.pdf-thumb-btn').forEach((b, i) => {
+                b.classList.toggle('active', i + 1 === num);
+            });
+        }
+
+        function goTo(num) {
+            if (num < 1 || num > TOTAL_NAMED) return;
+            currentPage = num;
+            renderPage(currentPage);
+        }
+
+        // Build thumbnail for one page
+        async function buildThumb(pageNum) {
+            const page      = await pdfDoc.getPage(pageNum);
+            const viewport  = page.getViewport({ scale: 0.2 });
+            const thumbCanvas = document.createElement('canvas');
+            thumbCanvas.width  = viewport.width;
+            thumbCanvas.height = viewport.height;
+            await page.render({ canvasContext: thumbCanvas.getContext('2d'), viewport }).promise;
+
+            const btn = document.createElement('button');
+            btn.className = 'pdf-thumb-btn';
+            btn.setAttribute('aria-label', `Go to page ${pageNum}: ${PAGE_NAMES[pageNum - 1]}`);
+            btn.dataset.page = pageNum;
+            btn.innerHTML = `
+                <span class="pdf-thumb-num">${String(pageNum).padStart(2, '0')}</span>
+                <span class="pdf-thumb-label">${PAGE_NAMES[pageNum - 1] || 'Page ' + pageNum}</span>
+            `;
+            btn.insertBefore(thumbCanvas, btn.firstChild);
+            btn.addEventListener('click', () => goTo(pageNum));
+            sidebar.appendChild(btn);
+
+            if (pageNum === 1) btn.classList.add('active');
+        }
+
+        // Load PDF and initialise
+        async function init() {
+            try {
+                pdfDoc = await pdfjsLib.getDocument(PDF_URL).promise;
+                elTotal.textContent = TOTAL_NAMED;
+
+                // Show canvas, hide loader
+                loading.style.display = 'none';
+                frame.style.display   = 'block';
+
+                // Render first page immediately
+                await renderPage(1);
+
+                // Build thumbnails progressively in background
+                for (let i = 1; i <= TOTAL_NAMED; i++) {
+                    await buildThumb(i);
+                }
+            } catch (err) {
+                loading.innerHTML = `<p style="color:var(--text-muted);font-family:'Inter',sans-serif;font-size:14px;padding:24px;">
+                    Unable to load PDF. Ensure the file is at <code>/pdf/AutoCAD_Portfolio_Book.pdf</code>.</p>`;
+                console.error('PDF load error:', err);
+            }
+        }
+
+        // Nav button events
+        document.getElementById('btnFirst').addEventListener('click', () => goTo(1));
+        document.getElementById('btnPrev').addEventListener('click',  () => goTo(currentPage - 1));
+        document.getElementById('btnNext').addEventListener('click',  () => goTo(currentPage + 1));
+        document.getElementById('btnLast').addEventListener('click',  () => goTo(TOTAL_NAMED));
+
+        // Zoom
+        document.getElementById('btnZoomIn').addEventListener('click', () => {
+            if (scale >= 3.0) return;
+            scale += 0.25;
+            renderPage(currentPage);
+        });
+        document.getElementById('btnZoomOut').addEventListener('click', () => {
+            if (scale <= 0.5) return;
+            scale -= 0.25;
+            renderPage(currentPage);
+        });
+        document.getElementById('btnFit').addEventListener('click', () => {
+            scale = 1.5;
+            renderPage(currentPage);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(currentPage + 1);
+            if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(currentPage - 1);
+            if (e.key === 'Home') goTo(1);
+            if (e.key === 'End')  goTo(TOTAL_NAMED);
+        });
+
+        init();
+    </script>
+
+</body>
+</html>

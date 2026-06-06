@@ -54,4 +54,8 @@ app.get('/web-pages/warp-story', (req, res) => {
     res.render('web_pages/warp_story', { title: 'Warp Story' });
 })
 
+app.get('/drafting/portfolio-book-2021', (req, res) => {
+    res.render('drafting/drafting', { title: 'Warp Story' });
+})
+
 app.listen(3000, () => console.log('Server running on port 3000'));
