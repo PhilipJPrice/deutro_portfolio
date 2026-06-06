@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Monkey King — Deutro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .project-page {
+            width: 100%;
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 48px 32px 96px;
+        }
+
+        /* ── Breadcrumb ── */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 36px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .breadcrumb a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+        .breadcrumb a:hover { opacity: 0.7; }
+        .breadcrumb-sep { color: var(--gold-border); }
+
+        /* ── Header ── */
+        .project-eyebrow {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: 0.75;
+            margin: 0 0 12px;
+        }
+
+        .project-title {
+            font-size: clamp(32px, 6vw, 58px);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 12px;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        .project-title span { color: var(--gold); text-shadow: 0 0 28px rgba(204,170,75,0.4); }
+
+        /* ── Gold bar divider ── */
+        .gold-rule {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, var(--gold) 0%, rgba(204,170,75,0.3) 60%, transparent 100%);
+            box-shadow: 0 0 8px rgba(204,170,75,0.2);
+            margin: 28px 0;
+        }
+
+        /* ── Italicised description block ── */
+        .story-description {
+            font-size: 16px;
+            font-style: italic;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* ── Story body ── */
+        .story-body {
+            margin-top: 48px;
+        }
+
+        .story-body p {
+            font-size: 17px;
+            line-height: 1.85;
+            color: var(--text-primary);
+            margin: 0 0 1.6em;
+        }
+
+        /* First letter drop cap */
+        .story-body p:first-child::first-letter {
+            font-size: 3.6em;
+            font-weight: 700;
+            color: var(--gold);
+            float: left;
+            line-height: 0.78;
+            margin: 6px 10px 0 0;
+            text-shadow: 0 0 20px rgba(204,170,75,0.4);
+        }
+
+        /* ── Footer meta ── */
+        .story-footer {
+            margin-top: 56px;
+            padding-top: 28px;
+            border-top: 1px solid var(--gold-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .story-footer-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        .story-footer-label strong { color: var(--text-primary); font-style: normal; }
+
+        @media (max-width: 600px) {
+            .project-page { padding: 32px 16px 64px; }
+        }
+    </style>
+</head>
+<body>
+    <%- include('../partials/topbar') %>
+
+    <div class="project-page">
+
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span class="breadcrumb-sep">›</span>
+            <a href="/#writings">Writings</a>
+            <span class="breadcrumb-sep">›</span>
+            <span>The Monkey King</span>
+        </nav>
+
+        <!-- Header -->
+        <header>
+            <p class="project-eyebrow">Short Story · Fiction</p>
+            <h1 class="project-title">The Monkey King</h1>
+        </header>
+
+        <!-- Top gold bar + description + bottom gold bar -->
+        <div class="gold-rule"></div>
+
+        <p class="story-description">
+            A young draftsman in Los Angeles suffers a car accident and discovers what feels like
+            telepathy — voices, visions, and a consuming connection to a celebrity he has never met.
+            As the line between perception and delusion dissolves, he chases love, belonging, and
+            freedom through the streets of the city on a motorcycle — until reality finally
+            catches up with him.
+        </p>
+
+        <div class="gold-rule"></div>
+
+        <!-- Story -->
+        <article class="story-body">
+
+            <p>I am abruptly awakened from my sleep. It's six o'clock in the morning. I am in a jail cell in central Los Angeles. The guard is calling out my name to be released. Relieved, I swing my legs over the two by seven foot bunk and gather the items that the jail has issued out to me: the mattress, the toothbrush, the cup, the utensil, and the extra pair of clothes. The guard informs me that my mother is here. I'm embarrassed as a twenty-four year old to be released from jail by his mother, but I'm not complaining. Anything is better than sitting in a jail cell for days, biding my time and waiting for the hour-long evening news session in the community cafeteria down below. While I gather my things and head out to the hallway where there are more guards stationed to lead me to the exit processing area, I think back to how I arrived at my present situation.</p>
+
+            <p>A year ago, my life was fairly normal. Then, I got in a car accident that hospitalized me. I recovered fully and received an insurance payout that paid me out financially, though I suffered a concussion from the car accident, but otherwise, no other major bodily damage. My job allowed me a few weeks to recover and I stayed at my apartment on the east side of Los Angeles to heal from the traumatic incident. My job, at the time, was as a draftsperson at an engineering consulting firm. The day-to-day was boring, but practical, and that's what I liked about it. Besides, the company gave me half pay to compensate for my absence during my recovery and that helped a lot. Otherwise, my boss is a bit tiresome and negligent in his communication, but overall helpful in the situation I found myself in.</p>
+
+            <p>During the time I spent at home from the car accident, I would scroll on social media and that's when I first saw her. It was a Wednesday, if I remember correctly. I saw a post of her modeling and at first, I thought nothing of it. I was ready to scroll past, but as I looked at the photo more carefully, I was amused by her modeling pose. Something about her pose made an impression on me. Then, after the amusement, I was enthralled. About fifteen seconds into looking at the photo, I felt an excitement, an amusement, and a joy I've never felt before. That's when I knew that she was my love.</p>
+
+            <p>A few months went by, and I kept up with her. She was a model and host for a popular sports news podcast. Gradually, I became more obsessed with her social media and podcast presence. Thinking that I found the love of my life, I began to comment on her social media posts eagerly awaiting for her response. Then, one day, it came. She thanked me for my support and that's when I knew she knew of me. Excited about the prospect of her knowing me, I regularly watched her show and wanted to know more about her.</p>
+
+            <p>Thinking back, I realize my obsession was unhealthy. This was a woman I've never met before in my life, and a celebrity at that. Working my day-to-day job, I realized that I would never probably meet her and that it was only a passing feeling. But, the feeling grew. Besides my growing obsession with this celebrity woman and my day-to-day job, I met with one of my friends regularly to buy drugs from him. The drugs were in the forms of marijuana, percocet, and xanax. One day, he came over and informed me that he had come across a strong marijuana strain from the Emerald Triangle in Northern California. The name of the marijuana was Merlot. I eagerly bought it. Wanting to try this hyped-up strain of weed, I bought an eighth of it and rolled a quarter of it into a blunt. After he left, I went outside to smoke.</p>
+
+            <p>It took three hits. The weed was incredible. After the first hit, I felt elated and euphoric. Then, the second hit calmed me down and left me feeling like I was floating. Then, I took the third hit and something strange happened. I heard a loud pop sound in my brain and a flood of thoughts entered my head. Sounds and voices from other people that I had known were distinctly heard. I was communicating with people from my past that I no longer knew anymore. It felt like telepathy. Not wanting to disturb the universe and contact the people that I felt like I was communicating with, I kept these thoughts to myself and had a full conversation with one of my friends from high school. He asked how I was and had told me he could watch me through our thoughts. I smirked quietly. Thinking I had opened a portal to the universe, I paced outside near a park by the apartment, having this conversation with my former friend.</p>
+
+            <p>After a few moments of speaking to him through my thoughts, I wanted some peace and quiet. So, he told me that he would leave me be and afterwards, he signed off from the conversation, while still being able to communicate with me through our thoughts. As I walked back to the apartment, I thought of the woman that I was in love with. Her name was Emile Sarkozy. Emile was doing a live podcast event that evening and I tuned into it to watch. Still bemused by the telepathy experience, I thought to myself that I could try to speak with her in my head since she's heard of me through social media.</p>
+
+            <p>That evening was unusual. While I was watching her podcast episode on my TV in the living room of my one-bedroom apartment, I called out to her through my mind. She responded to me. I asked her if she knew who I was and she answered approvingly. Incredulous of the prospect that I was actually communicating with her, I asked her to nod her head if she could hear me, and that's when she bowed her head and nodded in the middle of her podcast! I was sure that I had successfully communicated with her and I couldn't believe it. I asked her to say my name out loud on her podcast as a further affirmation of our communication, but she responded to me in my head that she couldn't because she was on air. Shortly after that, she ended her podcast.</p>
+
+            <p>That evening, I mused over our connection and paced around the apartment speaking with her through my mind. We spoke about our lives and she told me about her modeling gigs and television hosting appearances, but I had already known of them through her social media posts. I told her about my job at the engineering consulting firm and she replied that it's too boring for her. She told me that if I ever wanted to have a chance with her that I should do things that are more exciting. It was getting pretty late by the time that we had finished our telepathic conversation, but I had not felt tired. She said that the conversation had been fun and to keep up with her, but that she had to go to sleep. I stayed up that evening and paced around while smoking occasionally and going over the evening's events.</p>
+
+            <p>I had only had a few hours of sleep before the morning came, and I called off of work with the excuse that I had become sick. A few hours later, Emile contacted me through our thoughts. She had just woken up and wanted to reach out to someone. I quite enjoyed that. We spoke about trivialities and she asked me why I was available to speak with her. I told her that I had taken the day off from work because I had stayed up last night musing over our connection. She told me that the job was boring anyways and that I should do something more exciting. She said in the meantime, I should get a motorcycle's license, because she likes those types of men. I responded that it sounded dangerous, but I'd look into it. She said that she had some modeling gigs to go to and that she was signing off. I acquiesced.</p>
+
+            <p>After the conversation, I looked online and found some motorcycle license classes available the following weekend. I made a note of that and took time to go outside and smoke the rest of the weed that I had bought from my dealer. While outside, I thought about what she had told me and I decided to sign up for the motorcycle classes. After I went back inside, I paid the money and signed up for the class.</p>
+
+            <p>I spent the rest of the evening thinking about everything. My thoughts were racing. I couldn't sit in one place for an extended period of time. I kept getting up and pacing around the apartment. Thoughts from my friend from high school and Emile kept popping up in my head. It was like a symphony of voices were talking to me and I would listen to them and respond accordingly. It was hard to go to sleep that night, but I managed.</p>
+
+            <p>The rest of the week was brutal. I went to work and couldn't concentrate on my duties. I couldn't sit still long enough to get anything done. I could tell that my boss noticed something strange about me, but didn't say anything. I eventually got through my work and, then, the weekend had arrived. I bought some clothes for the motorcycle class and attended the training. I passed the tests and received the license for operating motorcycles. Meanwhile, I received telepathic communication from Emile and other people I've known throughout the weekend, speaking to me about what I should do and how I should do it at the motorcycle classes. I would listen to them, but I kept my free will and did as I wanted.</p>
+
+            <p>After the final motorcycle class, I went to a burger stand to eat. After eating, I contacted my friend who sells me drugs and I asked if he could come over that night. He said he was free and that he would be over later. I hung up the phone. My head hurt a little and the voices would come and go. They would speak to me about things in my life, their perceptions of me, or how I should behave in public. It started to get overwhelming. I took a walk around the parking lot to catch some air before getting in my car and driving home. During the trip back to my apartment, I passed by some car dealerships with Emile telling me that I should trade in my car and get a motorcycle. I debated the choice, while communicating with her over our thoughts.</p>
+
+            <p>That evening, I had my friend come over. The thoughts had grown louder and more debilitating. I couldn't concentrate on our meeting when he arrived and he said that I looked distracted. I nodded my head in agreement and bought some weed and xanax from him to calm me down. He kept the meeting short and left shortly afterwards. I could hardly concentrate on anything with the voices in my head distracting me. After he left, I took one of the xanax pills and rolled some of the weed into a joint. After about fifteen minutes, I went outside to smoke. The pill and the weed helped calm me down and the voices became quieter, but still present. I was still having conversations with people in my past and with Emile. Friends from my high school were telling me to not trust Emile and Emile told me to do as I pleased, but that she was there to help me. During the conversation, Emile brought up that I should trade my car for a motorcycle again. I thought about it and it sounded reasonable in my relaxed state of mind that I had entered into from the xanax and weed. I went back inside and slept soundly that night.</p>
+
+            <p>The following day, I had work. I remember going to the job that week and battling the voices in my head. They would tell me to do strange things like speak in aggressive tones to my boss or misalign some of the lines in my drawings on purpose. I couldn't tell if I should listen to them or not. When I wouldn't listen to them, they grew louder. So, I decided to follow some of their orders, and then, would correct myself afterwards as a way of following what they were saying, but still doing what I thought was best. It was confusing. Emile kept badgering me to get a motorcycle and I kept saying that I wasn't ready. It took some time, but after that week, I looked at a cruiser motorcycle at a dealership on my way home from work, and then a few days later, decided to trade in my car for it. They made the process extremely easy and were helpful in my questions. My car was worth more than the motorcycle, so after the fees and dealership costs, I was paid a little extra for the trade-in.</p>
+
+            <p>Riding the motorcycle felt like freedom and exhilaration at the same time. I had gotten used to it almost immediately and I enjoyed the feeling of the open-air and the rumbling of the bike underneath me. I had previously bought a helmet, a jacket, and trousers for the rides and I wore them as I rode the motorcycle through the streets of L.A., taking my time and leaning into the turns I took. The rushing of the air past me, the slight danger of riding the motorcycle, and the rock music that I played all combined into a serene experience. For the first couple hours of riding around the city, no voices were in my head, but after riding around and becoming accustomed to the environment, a voice in my head told me to go back to the apartment. I agreed with it and parked the bike in my designated parking spot, while I went back inside to smoke the rest of the weed that I had bought from my friend.</p>
+
+            <p>A few months had passed. I balanced riding the motorcycle, speaking with people telepathically and battling some of their voices, and going to work regularly. Not much had happened, but Emile had grown impatient in my head. She wanted something more adventurous from me. And, then, one day, it came. I was riding my motorcycle around the city, when I passed by a biker bar on my way home from work one day. Motorcycles lined the parking lot and something called me to go in to see what it was like. When I went in, I encountered a room of men wearing biker jackets and boots, playing billiards or cards, drinking booze while loud rock music was playing and women were flirting with some of them. I was immediately drawn into the scene and I took a place near the bar and ordered a beer. While I entered the bar, the voices had stopped badgering me and I could have the experience free from any criticisms or suggestions that I had to usually deal with.</p>
+
+            <p>After about fifteen minutes, a few guys that were playing billiards had come up to me and introduced themselves. Their names were Dale, Robert, and Stewart. Dale was outspoken and cheerful, having introduced himself first to me. Robert was quiet and shy, wearing glasses and looked intelligent. And, Stewart was rowdy and unpredictable, having roughed me up when we first met. They introduced themselves and asked about what motorcycle I rode and my job. I told them what bike I rode and that I work as an engineering draftsman at an engineering consultant agency. They were enthusiastic about my motorcycle and were interested in my job, having had a few drinks and had just won some money playing billiards. They told me what they rode and their employment statuses. Dale was a dentist, Robert was a chemical engineer, and Stewart was in between construction jobs. After our introductions, they invited me to play billiards with them.</p>
+
+            <p>We played billiards and got to know each other better. The bar was rowdy and loud and after a few games, they invited me outside so that they could smoke a cigarette. When we went outside, we spoke more about our lives and they showed me their bikes and I showed them mine. We connected with each other. Exchanging our phone numbers, they mentioned that in the evenings, they play poker in the basement of the bar sometimes and that they would invite me the next time there was a game. I enthusiastically accepted. After spending some time outside, I wanted to go back to my apartment to relax, so I departed from them and rode home elated at the prospect that I made a few friends.</p>
+
+            <p>On the way back to the apartment, voices were speaking to me again. They told me not to trust those three and that I should be careful about making new friends. I dismissed the thoughts, and sped up the bike, hoping to outrun the thoughts that afflicted me. When I arrived at the apartment, I went inside and rolled some weed to smoke it outside. When I had smoked the weed, Emile had contacted me and liked that I had gone to a biker bar. She wanted me to do things more exhilarating in my life and promised to meet me one day after I had become more adventurous. I smiled to myself, fantasizing what it would be like to meet her and get to know her. Meanwhile, other voices were interjecting in my mind and I wondered where they were coming from. They would tell me to do certain things that were awkward or unconventional and would become louder if I didn't listen to them. Visions of seeing Emile in her apartment started happening and I became more convinced that the telepathy had grown stronger and that I could now visualize what reality was in my mind. Other visions were happening like where I should put things on the counter or how my life would be at work. Some were positive and uplifting like visions of succeeding at work and others were negative and frightening like Dale, Robert, and Stewart attacking me in the parking lot of the bar. The visions were vivid and felt like I was seeing the future. I went back inside and tried to lay down to clear my head.</p>
+
+            <p>I woke up in the morning. I had work and I had hoped that the visions would not prevent me from getting things done at work. But, I was wrong. The visions would appear at random and felt like they consumed my thoughts. The most afflicting of the visions were a recurring experience of getting in that car accident. It debilitated my work process and, during that day, my boss called me into his office to speak with me. He told me that he had noticed my work had declined in quality recently and that I seemed preoccupied with other things. He asked if anything was wrong. I told him that I was dealing with some issues outside of work. He told me that it was just a warning, but to try harder at getting my work done on time and efficiently. I agreed with him and thanked him for the meeting. But, when I got back to my desk to work on a project, visions of Emile pacing her apartment were experienced by me. I thought it was odd that I could see her pacing her apartment, but I tried to concentrate on my work. Voices and images were rapidly running through my mind and since I couldn't concentrate on work, I decided to leave early and try to calm myself down.</p>
+
+            <p>It felt awkward that I had a meeting with my boss and that I decided to leave early, but I couldn't help myself. I needed some time to get some air and try to clear my head. That evening, Dale texted me that there was a poker session the following day. So, I prepared myself to attend, having played in previous poker tournaments in my late teens and earlier twenties. It was a Friday, so no work the following day and I had the evening to myself. I decided to do my usual session of smoking some weed and browsing on social media. I'd decided to not pay as much attention to Emile as I used to. I found it awkward that I can communicate with her, but not meet up with her in person. And, after my smoking session, browsing on social media gave me anxiety, so I decided not to do it for very long. The thoughts were quiet that night. I was left mostly to myself. I had time to think about everything and wonder if the thoughts I was having were actually communicating with these people or if I was delusional. I couldn't tell the difference, but for the time being, I decided to go along with my thoughts and determine the best way forward.</p>
+
+            <p>The following day was uneventful. I remained sober, so that I could go to the poker session clear-headed and composed. The evening came quickly that day. Voices in my head were swirling when I arrived at the bar. They would come and go, some encouraging me and others were violent and malevolent. Once I started playing poker, I would visualize the moves that I should make, some decisions were good, some were bad. I adjusted accordingly. My calculation and social analysis were spot on sometimes, but I couldn't concentrate long enough to gain an advantage. I managed to end the game with a third of the pot, about twenty dollars in winnings. I was pleased with my performance, but the thoughts were convincing me that I should have done better. After the game ended, I stood outside the bar with Dale, Robert, and Stewart talking about the game and going over some of the plays that had happened. I visualized the three of them violently attacking me, but I decided to trust them and stick around. That's when Robert had dubbed me the Monkey King, because of the way that I had moved in the game and how I played my hands. I quite liked that, having a nickname was unusual for me and I liked the name he gave me.</p>
+
+            <p>After we spoke outside for half an hour, we decided to part ways. I rode my motorcycle home and went to sleep soundly that night. When I awoke, thoughts of Emile immediately came to mind. She told me that she was proud of me that I won some money, but that it was still too boring for her. She told me that that measly bit of money wouldn't win her over and that I should be more of a risk-taker. I agreed with her, not wanting to anger her. Other voices in my head were telling me to stay away from the biker bar because it was a dangerous place and that the people there were untrustworthy. Emile said that it's my choice, but it would please her if I continued going.</p>
+
+            <p>That week something peculiar happened. While I was at work, I saw visions of Emile going to the biker bar and staying around the place for a little bit. I assumed that she knew I went there and went to check the place out while I was busy. I thought it was frustrating that she was involved with my life but her not wanting to meet with me gave me anxiety. I received a vision where she enjoyed the place and decided to stick around for a while. I wanted to get off of work to check out the motorcycle bar and, hopefully, meet with her, but I couldn't since I had left early last Friday. I dismissed the thoughts and decided to continue concentrating on my work, but it was difficult. I paced myself throughout the day, and got some tasks done, but nowhere near what I needed to accomplish. After work, I decided to go to the biker bar and stop by for a little bit.</p>
+
+            <p>When I arrived at the biker bar, it was barren and empty. Assuming Emile had already left, I went inside and saw only a few people playing billiards and the bartender. I thought about asking the bartender if he had seen Emile, but I talked myself out of it, thinking that the conversation would be awkward for me either way. On my way home from the bar, I wanted to smoke some weed, so I texted my drug dealer to meet me that evening. Then, after texting my drug dealer, a flood of voices entered into my head. It felt like voices were fighting for space inside my mind. They were telling me to not trust Emile and to seek peace in my life. But, the voices and visions were the ones debilitating me. I could hardly concentrate on riding the motorcycle, my eyes were darting all over the road and I had racing thoughts. Finally, I arrived at the apartment complex and went inside. I tried to lay down to clear my head, but the delusions had taken a hold of me. I vividly saw a vision of spirits attacking me from all around me and I couldn't get the image of someone hitting me on the head with an object out of my mind. Eventually, I calmed down, but I still heard and saw things that weren't there.</p>
+
+            <p>When my drug dealer arrived at my apartment, I was a mess. I dreaded seeing him and felt nervous opening the door for him, but I wanted to buy some weed. I thought, maybe, he was there to rob me, but I decided to open the door for him and let him in because I didn't want to seem weird. Immediately, he said I looked unwell. He slowly sat down and asked if I had become sick. I decided to tell him the truth that I was hearing voices and seeing visions of people I had never met before and that it was afflicting me. He responded that it sounded like schizophrenia and that I should be careful. He hesitated selling me weed, but thought that maybe it would help calm me down. I thanked him and kept the meeting short, wanting to spend some time by myself. He hurriedly left the apartment, told me to take care of myself, and said that he hopes to see me again soon. I replied the same and let him out.</p>
+
+            <p>That night I had another vision. This time, I saw Emile going to the biker bar and meeting with Dale, Robert, and Stewart. They introduced themselves and Emile stayed around to talk with them for a while. I saw them laughing together and Emile playfully pushing Dale while talking with them. It infuriated me. I decided that I was having some sort of spiritual visions and they were designed to show the future or what was happening in the present while I was away from people. I wanted to text Dale and see if he was at the biker bar, but I didn't want to seem like I was too concerned if they had actually met with Emile. I went to sleep and woke up in the morning and called off of work. I couldn't work, now that I thought Emile and those guys had met with each other. I smoked weed and called out to Emile to see what was going on and why she doesn't meet with me when she meets with my friends. She laughed at me and replied that I wasn't ready for her. I became slightly infuriated and asked if we could finally meet each other. She replied, maybe one day and left it to that. I paced around the apartment and couldn't contain myself. I strewn cups, clothes, and plates around the apartment and made a mess from throwing them around.</p>
+
+            <p>That afternoon, I had another vision. I saw Emile going to the biker bar again and meeting Dale alone. I guessed that they exchanged phone numbers the night before and had decided to meet each other again. I saw them playfully fighting with each other and them acting like they didn't like each other. I was surprised, thinking that they were going to fight each other. But, then, they made up and started kissing each other. I was infuriated. Wanting to leave them to their business, I decided to not interfere with them and to let her choose what she wants to choose. But, after a while, I decided to go to the biker bar and see for myself if they were there. When I started riding over to the bar, I saw visions of them sensing that I was going there and hurriedly got their things together and left. Emile in her car and Dale on his motorcycle. I thought, great, now I will miss them again. And, when I arrived at the biker bar, no one was there. It was around two in the afternoon and the biker bar had just opened. I decided to not go in and left to go back to my apartment. I didn't know if I saw actual visions of them meeting with each other or if I was just imagining it. For them to act like that in a public place and her being a celebrity, I wanted to know the truth, but I couldn't bring myself to ask Dale. I decided to go back to my apartment and smoke some weed to calm me down.</p>
+
+            <p>The following day, I called off of work again. I felt anxiety and knew that I wouldn't have been able to concentrate on my work. This time, though, it was different. My boss called me and told me that I had been fired. I took too many days off and slacked off at work too much recently and the workplace had gotten sick of it. They had decided that it was time for me to leave and that I should pick up my things when I had availability. I ended the call solemnly. I knew that I had not been productive enough at work, but I thought, maybe, they would allow me to work through my problems over time. I got over it quickly, though. I thought that I had other matters to attend to now like Dale and Emile meeting each other without me. I thought to myself that if she wants to date Dale, then why would she contact me through our thoughts? It was confusing and I was perplexed about the situation. I contacted Emile through our thoughts and asked why would she contact me if this is how it would turn out? She replied that it just happened like that and that she's just living life. I couldn't believe it. This world that I had in my mind was attacking me and I wanted some peace from the situation. However, no peace came to me, because that evening, when I had laid down to clear my thoughts, I had visions of Emile going over to see Dale at the bar and them having sex in her car in the parking lot of the biker bar. I was furious. I thought that she had betrayed me and doing that in public was even worse on her part. I needed answers. I called Dale and wanted to know the truth. He picked up almost immediately, and in the background I heard rock music and laughing. I thought that they were laughing at me and my situation with Emile. Instead of asking Dale about what was happening, I snapped. I told him that I was going to kill him if I ever saw him again and that he should be careful. Then, I hung up the phone.</p>
+
+            <p>I knew I was being irrational, but I didn't care. The thoughts had fully consumed me and I was just a passenger on this train ride of delusion. Still, though, I thought that I had opened a portal to the universe and that all these people that had something to do with me were scheming against me and I had insight into their schemes. I thought Emile had done this because I wasn't adventurous enough and that Dale was more to her liking. I wanted to call Dale again and get more off of my chest, so I tried to call him, but he blocked my call. I paced around the apartment looking for something to take the edge off. I was out of weed and prescription pills, so I had nothing to calm me down. I threw some more stuff around and decided to lay down.</p>
+
+            <p>I must have fallen asleep, because I had awoken to the morning sun shining on my face in my bedroom. I decided to go to Emile's apartment that day. I thought I knew what apartment she lived in from the pictures she posted on social media and from my research on the internet. When I arrived at the apartment, I stood outside for a little bit, calling out to her in my mind. I received no response. Slowly, anger built up inside of me. I thought she had ghosted me and that she no longer would communicate with me. I felt like she was telling me that I wasn't good enough for her. I decided to take out my anger on the woman I met on the street. I would harass and physically assault the woman that I saw. Apparently, one of the women called the cops on me, because the cops had approached me and arrested me.</p>
+
+            <p>I stayed in jail for a few days and called my mom. It's Friday and she's here to bail me out. I go to the exit processing area, where she is and get processed to leave. I hug her when I see her and tell her that I am sorry. She tells me that it's ok and to get in the car. On the ride home, she tells me she's taking me to her house to stay and that she's scheduled a therapy session for me. I am reluctant but she says that it's mandatory that I go. I oblige to her requests. The therapy session diagnoses me with schizophrenia and bipolar disorder. They put me on medication and tell me to wait a few days for it to take effect.</p>
+
+            <p>A few days pass and the voices have become quiet in my head. After the medication takes effect, I ask my mom to borrow her car to travel around the city. She's reluctant but allows me to use her vehicle. After traveling around the city for a while, I park it in a parking garage and take a walk around the city. When walking around the city, I see a group of people surrounding the outside of a cafe, taking pictures and being excited. I go there to see what they are thrilled about. It's Emile! I see Emile at one of the tables taking pictures with her fans and doing a meet-and-greet. I get nervous, but I continue walking up to the table. She looks around and catches my eye. She smiles at me, I smile back.</p>
+
+            <p><em>The End</em></p>
+
+        </article>
+
+        <!-- Footer -->
+        <footer class="story-footer">
+            <span class="story-footer-label"><strong>The Monkey King</strong> — Short Fiction</span>
+            <a href="/#writings" style="color: var(--gold); font-size: 13px; font-weight: 600; text-decoration: none;">← Back to Writings</a>
+        </footer>
+
+    </div>
+</body>
+</html>

@@ -12,6 +12,14 @@ app.get('/', (req, res) => {
     res.render('index', { title: 'Home Page' });
 });
 
+app.get('/writings/monkey-king', (req, res) => {
+    res.render('writings/monkey_king', { title: 'The Monkey King' });
+})
+
+app.get('/writings/after-life', (req, res) => {
+    res.render('writings/after_life', { title: 'After Life' });
+})
+
 app.get('/animations/birthday', (req, res) => {
     res.render('animations/birthday', { title: 'Birthday' });
 })
@@ -30,6 +38,10 @@ app.get('/animations/gems', (req, res) => {
 
 app.get('/animations/pendulum', (req, res) => {
     res.render('animations/pendulum', { title: 'Pendulum' });
+})
+
+app.get('/illustrations/posters-2023-2024', (req, res) => {
+    res.render('animations/pendulum', { title: 'Posters 2023-2024' });
 })
 
 app.listen(3000, () => console.log('Server running on port 3000'));

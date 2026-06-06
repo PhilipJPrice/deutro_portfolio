@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>After Life — Deutro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .project-page {
+            width: 100%;
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 48px 32px 96px;
+        }
+
+        /* ── Breadcrumb ── */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 36px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .breadcrumb a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+        .breadcrumb a:hover { opacity: 0.7; }
+        .breadcrumb-sep { color: var(--gold-border); }
+
+        /* ── Header ── */
+        .project-eyebrow {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: 0.75;
+            margin: 0 0 12px;
+        }
+
+        .project-title {
+            font-size: clamp(32px, 6vw, 58px);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 12px;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        .project-title span { color: var(--gold); text-shadow: 0 0 28px rgba(204,170,75,0.4); }
+
+        /* ── Gold bar divider ── */
+        .gold-rule {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, var(--gold) 0%, rgba(204,170,75,0.3) 60%, transparent 100%);
+            box-shadow: 0 0 8px rgba(204,170,75,0.2);
+            margin: 28px 0;
+        }
+
+        /* ── Italicised description block ── */
+        .story-description {
+            font-size: 16px;
+            font-style: italic;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* ── Story body ── */
+        .story-body {
+            margin-top: 48px;
+        }
+
+        .story-body p {
+            font-size: 17px;
+            line-height: 1.85;
+            color: var(--text-primary);
+            margin: 0 0 1.6em;
+        }
+
+        /* Inset hymn / song verse */
+        .story-body blockquote {
+            margin: 0 0 1.6em 0;
+            padding: 20px 28px;
+            border-left: 3px solid var(--gold);
+            background: rgba(204,170,75,0.04);
+            border-radius: 0 8px 8px 0;
+        }
+        .story-body blockquote p {
+            font-size: 16px;
+            font-style: italic;
+            color: var(--text-muted);
+            margin: 0 0 0.4em;
+        }
+        .story-body blockquote p:last-child { margin: 0; }
+
+        /* Drop cap on opening paragraph */
+        .story-body p:first-child::first-letter {
+            font-size: 3.6em;
+            font-weight: 700;
+            color: var(--gold);
+            float: left;
+            line-height: 0.78;
+            margin: 6px 10px 0 0;
+            text-shadow: 0 0 20px rgba(204,170,75,0.4);
+        }
+
+        /* Dialogue lines */
+        .story-body p strong {
+            color: var(--text-primary);
+        }
+
+        /* ── Footer meta ── */
+        .story-footer {
+            margin-top: 56px;
+            padding-top: 28px;
+            border-top: 1px solid var(--gold-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .story-footer-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        .story-footer-label strong { color: var(--text-primary); font-style: normal; }
+
+        @media (max-width: 600px) {
+            .project-page { padding: 32px 16px 64px; }
+            .story-body blockquote { padding: 16px 18px; }
+        }
+    </style>
+</head>
+<body>
+    <%- include('../partials/topbar') %>
+
+    <div class="project-page">
+
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span class="breadcrumb-sep">›</span>
+            <a href="/#writings">Writings</a>
+            <span class="breadcrumb-sep">›</span>
+            <span>After Life</span>
+        </nav>
+
+        <!-- Header -->
+        <header>
+            <p class="project-eyebrow">Short Story · Speculative Fiction</p>
+            <h1 class="project-title">After Life</h1>
+        </header>
+
+        <!-- Top gold bar + description + bottom gold bar -->
+        <div class="gold-rule"></div>
+
+        <p class="story-description">
+            A man named Gerald dies and awakens in the light plane as a golden orb — aware, curious,
+            and newly unburdened from his earthly body. Guided through a luminescent forest by a gnome
+            and his deer, Gerald encounters pixies, animal spirits battling for supremacy, and a stream
+            of pure light that strengthens all who enter it. When he joins a group of orbs on the path
+            to the Palace of Judgement, a bond forms, a soul mate is found, and the fate of five spirits
+            is decided by a judge beyond the edge of the forest.
+        </p>
+
+        <div class="gold-rule"></div>
+
+        <!-- Story -->
+        <article class="story-body">
+
+            <p>In the light plane, a small golden orb becomes aware. Sensing the world around him, he recognizes seven pixies surrounding him chanting his earthly name and singing a hymn.</p>
+
+            <blockquote>
+                <p><em>"Gerald, Gerald, Gerald, he once was called Gerald,</em></p>
+                <p><em>Died in his past life when he was in peril,</em></p>
+                <p><em>Now to the judge he must go and go as a spirit,</em></p>
+                <p><em>To the forest he must go and be shown by our dearest."</em></p>
+            </blockquote>
+
+            <p>The pixies laugh in unison and float away to the light forest, which is the forest that is made out of lights. The forest in this world is the heavenly sphere for the forest on earth. The light trees extend infinitely up and down, stretch far into the distance, and are connected by tiny streaks of light extending from a place in the center. Gerald floats towards where the pixies entered the forest. The light trees give off a radiance in light and sounds, sparkling their radiance and sounding symphony-like with different tones. He floats towards the light trees and grazes one of them. Not being able to travel through it, he bounces off of it while the tree emits a bell-like sound and radiates at the spot where he touched it. Through the forest, a gnome riding a deer made out of light approaches him.</p>
+
+            <p>"Hello, fellow traveler! Welcome to the light forest," the gnome exclaims.</p>
+
+            <p>"Where am I?" Gerald asks, transmitting through his thoughts.</p>
+
+            <p>"You have died in the earthly realm and we are here to guide you through this forest to the path of light." The gnome replies.</p>
+
+            <p>"And, where do I go from there?" Gerald inquires.</p>
+
+            <p>"Well, to the judge, of course. He decides where you go from this plane." The gnome says starkly.</p>
+
+            <p>There's space in between the trees to navigate, so Gerald zig-zags through the forest until he reaches the deer and gnome.</p>
+
+            <p>"What other spirits are here in this plane?" Gerald asks when he arrives at them.</p>
+
+            <p>"Well, there's gnomes like myself, pixies whom you have just encountered, nymphs, and animal spirits like this deer here. The spirits and beings in this plane can travel to and from the earthly and heavenly realms. The animal spirits here battle for superiority where they can grow stronger and have more influence in the animal and forest kingdoms on earth. I am your guide through this forest." The gnome replies.</p>
+
+            <p>"And, what am I?" Gerald asks.</p>
+
+            <p>"You are a spiritual light orb that has newly acquired death in the earthly realm. Because you were mostly good on earth, you are made of light. Others, not so good, are made out of ominous energy and each is here to see the judge where they will be sentenced to heaven, hell, or back to earth, reincarnated as another being." The gnome replies patiently.</p>
+
+            <p>"Ok, where do we go from here?" Gerald asks.</p>
+
+            <p>"We go to the light path! Here, this is the way," the gnome says, pointing with his hat.</p>
+
+            <p>On they travel through the light forest where there are squirrel spirits, bird spirits, and other animal spirits navigating through the forest. Gerald can sense the beings near him. He can, also, sense the immediate trees near to him as he travels through the forest, but not much more.</p>
+
+            <p>"The stronger your light energy is, the farther you can sense and the brighter you appear to others," the gnome explains while Gerald follows them through the forest.</p>
+
+            <p>The trees become thicker and more luminescent the farther they travel.</p>
+
+            <p>"We are approaching the source of light in this forest, so that's why the light trees are stronger, more radiant, and louder here," the gnome says, speaking over the symphony of sounds in the forest.</p>
+
+            <p>As they travel through the forest, Gerald can sense a sound growing in intensity. It has the sound of gushing waters. When they arrive at the origination of the sound, there's a wide bright, luminescent stream of light that appears to be infinitely up and down with streaks extending in all directions, connecting to the trees.</p>
+
+            <p>"This is the source of all light in this forest! If you enter through it, you will absorb some of its light and become stronger," the gnome shouts.</p>
+
+            <p>At the base of the stream, a fox spirit is drinking from the stream and absorbing its energy, growing larger in size and more luminescent. The gnome dismounts from the deer and floats near Gerald.</p>
+
+            <p>"Here try to absorb some of the light stream," the gnome shouts.</p>
+
+            <p>Gerald floats towards the light stream and enters into it, gradually absorbing the stream and growing in size and feeling waves of euphoria. While he basked in the light stream's radiance, the fox spirit and deer spirit begin to battle. Gerald exits the light stream and floats towards the gnome who has gone further ahead.</p>
+
+            <p>"The animal spirits in this world battle one another for superiority in this world, which rules the kingdom on earth." The gnome mentions.</p>
+
+            <p>The fox spirit attacks the deer, grabbing him with his claws. The deer spirit rams the fox spirit with his horns and tries to escape from his grasp. They fight one another's energy and the fox spirit seems to have gotten the upper hand. Using his treachery and deceitfulness, the fox spirit transforms into an ominous energy and tries to engulf the deer spirit's power. The deer spirit runs away and absorbs energy from the light stream, growing in size and luminosity. Then, the fox spirit grabs onto the deer spirit's horns and tries to wrestle him into the world below by hurling him into the forest depths. The deer spirit resists and in one fatal swoop, hurls the fox spirit into the depths of the forest beneath him and back to the earth realm where the fox spirit must wait until he's stronger to reenter the heavenly realm. Afterwards, the deer spirit gallops through the air back to the gnome and waits patiently for the gnome to mount him.</p>
+
+            <p>"The fox spirit is a treacherous being and fights the other animals for superiority of the forest and now, the fox spirit has been thrusted into the earthly world to learn his lesson. We're halfway through the forest, let's hurry." The gnome says, mounting on the deer and rushing away.</p>
+
+            <p>Gerald follows them through the rest of the forest, where nymphs and other spiritual creatures are sensed navigating the forest. The energy boost he received from the light stream propels him forward at a speed faster than light travels in the earthly realm. Nearing the edge of the forest, the trees become skinnier and the sounds quieter with more distance between the trees. At the edge of the forest, the gnome dismounts again and points with his hat towards the light path extending from the edge of the forest. It's a path of light that goes infinitely up, down, and side to side.</p>
+
+            <p>"Follow this to the Judge. This leads to the Palace of Judgement," the gnome tells Gerald.</p>
+
+            <p>"Ok," Gerald says before entering into the stream of light.</p>
+
+            <p>As Gerald enters the stream of light, the deer and gnome travel back into the forest where they wait for others to be transported there from the earthly realm. Gerald floats into the light path where he is submerged by the light and is no longer seen from the forest. He floats in the light path following the stream of light forward.</p>
+
+            <p>In the light path, Gerald floats effortlessly forward. The light path has streaks of light demarcating the way forward and the path steadily glides Gerald towards the Palace of Judgement on its own accord. Following the streaks of light, Gerald feels excitement and dread for what is to come, but, also, a sense of peace. The energy boost he received from the light stream has slowly worn off and he is now back to how he was before when he arrived at the light plane.</p>
+
+            <p>Following the streaks and moving quickly, Gerald senses orbs ahead of him traveling in a group. There are three of them, each a different aura. There's a blue orb, a green orb, and a reddish-orange orb. When Gerald reaches them, they are playfully bumping into one another and laughing with each other. Gerald joins their group and playfully bumps into the others as he does so. They accept him into their group and laugh amongst themselves.</p>
+
+            <p>As the four of them travel on the light path, Gerald has a growing glowing sensation in his being. They sense another orb up ahead of them surrounded by ominous energies. As they reach the place where they sensed the energies, they sense a pink orb being attacked and weakened by a group of demon orbs. Gerald feels an instant connection to the pink orb and grows in size and luminosity to save her. The other three orbs move quickly to save her, as well. The four of them fight off the demon orbs by using their light energy to push the demon orbs away from the pink orb and minimizing their ominous energy by drowning them in the light of their righteousness.</p>
+
+            <p>The demon orbs fight back and three of them attack the green orb, and while the green orb fights back, releases ominous energy from deep inside of him and is conquered by the demon orbs. The ominous energy submerges his being and he is converted to a demon orb. The demon orbs laugh and escape away from the other light orbs. The green orb, now a demon orb, is stunned by his conversion and feels ugly in his new form. He senses the others paying attention to him, now that he has been engulfed by evil and darkness and floats away rapidly, wanting to escape from their presence. The light orbs beckon him towards them but to no avail. He escapes and is no longer in the presence of the other orbs.</p>
+
+            <p>Now that the demon orbs have dispersed, Gerald, no longer fueled by his desire to save the pink orb, shrinks in size and luminosity to be even smaller than what he originally was. However, being in the presence of the pink orb comforts him and he bumps up against her. She responds by bumping him back and the two of them laugh together. They are soul mates. Both feel the energy of their divine connection and they laugh amongst themselves and play by exchanging their light energies and dancing with one another. Their presences bring out a beautiful light show and the other two orbs bask in the light that they produce. Afterwards, the four of them continue on their journey on the light path.</p>
+
+            <p>When they arrive at the Palace of Judgement, the gates of light beckon them in. Outside, the demon orb that was once a green orb is sensed by the others. Approaching him, the four orbs try to share their light energy with him, hoping to reconvert him back to how he was before. However, he rejects their attempt and wants to be left alone, having the ominous energy taken hold of his being. The five of them enter the light gates of the Palace of Judgement.</p>
+
+            <p>Inside, the Palace of Judgement is a multi-faceted beam of light that changes its hue of colors and emits a symphony-like sound of bells. After entering the Palace, they are met by a giant orb of energy with iridescent colors.</p>
+
+            <p>"Welcome to the Palace of Judgement," the Judge bellows, transmitting through the plane.</p>
+
+            <p>The five of them are in anticipation of the proceedings and await in silence.</p>
+
+            <p>"Timothy has been converted to a demon orb." The Judge continues, as the demon orb cowers behind the others. "The five of you were sent to the earthly realm to spend time with one another and have been released back here after a car crash had killed your earthly bodies there. You do not remember, because your memories have not been saved, yet. However, when you are released from this plane, we can choose to give you back your memories from earth or discard them and sentence you to oblivion where you will be there for eternity. Having good spirits like you to share with the Almighty is one of my responsibilities and I will inform you that four of you will be sent to the heavenly realm. Whereas, Timothy will be sentenced back to earth where he will relive and learn the necessary lessons to reinvigorate his righteousness."</p>
+
+            <p>When the Judge finishes his sentence, he sends beams of light out from his orb and transfers the four orbs, Gerald, the pink orb, the blue orb, and the reddish-orange orb to the heavenly realm. Whereas, he sends another stream of light to Timothy, the demon orb, and sends him back to Earth.</p>
+
+            <p><em>The End</em></p>
+
+        </article>
+
+        <!-- Footer -->
+        <footer class="story-footer">
+            <span class="story-footer-label"><strong>After Life</strong> — Speculative Fiction</span>
+            <a href="/#writings" style="color: var(--gold); font-size: 13px; font-weight: 600; text-decoration: none;">← Back to Writings</a>
+        </footer>
+
+    </div>
+</body>
+</html>
