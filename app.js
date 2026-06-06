@@ -1,5 +1,11 @@
 const express = require('express');
+const favicon = require('serve-favicon');
+const path = require('path');
+
 const app = express();
+
+// Serve favicon
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 // Serve static CSS files from the public folder
 app.use(express.static('public'));
@@ -41,7 +47,7 @@ app.get('/animations/pendulum', (req, res) => {
 })
 
 app.get('/illustrations/posters-2023-2024', (req, res) => {
-    res.render('animations/pendulum', { title: 'Posters 2023-2024' });
+    res.render('illustrations/illustrations', { title: 'Posters 2023-2024' });
 })
 
 app.listen(3000, () => console.log('Server running on port 3000'));
