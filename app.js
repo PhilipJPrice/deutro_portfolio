@@ -50,4 +50,8 @@ app.get('/illustrations/posters-2023-2024', (req, res) => {
     res.render('illustrations/illustrations', { title: 'Posters 2023-2024' });
 })
 
+app.get('/web-pages/warp-story', (req, res) => {
+    res.render('web_pages/warp_story', { title: 'Warp Story' });
+})
+
 app.listen(3000, () => console.log('Server running on port 3000'));

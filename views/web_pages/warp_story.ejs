@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Warp Story</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --glass-bg: rgba(255,255,255,0.07);
+      --glass-border: rgba(255,255,255,0.18);
+      --glass-blur: 18px;
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255,255,255,0.65);
+      --accent: #a78bfa;
+      --accent2: #34d399;
+      --danger: #f87171;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #000;
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: var(--text-primary);
+    }
+
+    /* FIXED CANVAS BACKGROUND */
+    #warp-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+    }
+
+    /* SCROLLABLE CONTENT LAYER */
+    #app {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* TOP BAR */
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 28px;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .topbar-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .topbar-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      font-family: 'Syne', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .btn-ghost {
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.14); color: #fff; }
+
+    .btn-accent {
+      background: var(--accent);
+      color: #0f0720;
+    }
+    .btn-accent:hover { background: #c4b5fd; }
+
+    .btn-danger {
+      background: rgba(248,113,113,0.15);
+      color: var(--danger);
+      border: 1px solid rgba(248,113,113,0.3);
+    }
+    .btn-danger:hover { background: rgba(248,113,113,0.25); }
+
+    /* STAGE - scrollable canvas area */
+    .stage {
+      padding: 90px 0 80px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* CARDS CONTAINER */
+    #cards-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* GLASS CARD */
+    .glass-card {
+      position: relative;
+      width: min(560px, 90vw);
+      margin: 28px 0;
+      padding: 36px 38px 30px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--glass-border);
+      border-radius: 18px;
+      box-shadow: 0 8px 48px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12);
+      animation: cardIn 0.45s cubic-bezier(0.23,1,0.32,1) both;
+      transition: box-shadow 0.3s, border-color 0.3s;
+    }
+    .glass-card:hover {
+      box-shadow: 0 16px 64px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.18);
+      border-color: rgba(167,139,250,0.35);
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Connector line between cards */
+    .glass-card + .glass-card::before {
+      content: '';
+      position: absolute;
+      top: -28px; left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      height: 28px;
+      background: linear-gradient(to bottom, transparent, rgba(167,139,250,0.5));
+    }
+
+    /* Card number badge */
+    .card-badge {
+      position: absolute;
+      top: -12px;
+      left: 32px;
+      background: var(--accent);
+      color: #0f0720;
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.07em;
+      padding: 3px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+
+    /* Card controls */
+    .card-controls {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      display: flex;
+      gap: 6px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .glass-card:hover .card-controls { opacity: 1; }
+
+    .card-ctrl-btn {
+      width: 28px; height: 28px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.7);
+      cursor: pointer;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .card-ctrl-btn:hover { background: rgba(255,255,255,0.18); color: #fff; }
+    .card-ctrl-btn.del:hover { background: rgba(248,113,113,0.25); color: var(--danger); border-color: rgba(248,113,113,0.4); }
+
+    /* EDITABLE FIELDS */
+    .card-tag-input {
+      display: inline-block;
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      background: transparent;
+      border: none;
+      outline: none;
+      border-bottom: 1px dashed rgba(52,211,153,0.4);
+      width: 100px;
+      margin-bottom: 12px;
+      caret-color: var(--accent2);
+    }
+    .card-tag-input:focus { border-bottom-color: var(--accent2); }
+    .card-tag-input::placeholder { color: rgba(52,211,153,0.35); }
+
+    .card-title-input {
+      display: block;
+      width: 100%;
+      font-family: 'Syne', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1.15;
+      color: #fff;
+      background: transparent;
+      border: none;
+      outline: none;
+      border-bottom: 1px dashed rgba(255,255,255,0.15);
+      margin-bottom: 14px;
+      resize: none;
+      overflow: hidden;
+      caret-color: var(--accent);
+    }
+    .card-title-input:focus { border-bottom-color: rgba(167,139,250,0.6); }
+    .card-title-input::placeholder { color: rgba(255,255,255,0.2); }
+
+    .card-body-input {
+      display: block;
+      width: 100%;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      background: transparent;
+      border: none;
+      outline: none;
+      resize: none;
+      overflow: hidden;
+      caret-color: var(--accent);
+    }
+    .card-body-input:focus { color: rgba(255,255,255,0.8); }
+    .card-body-input::placeholder { color: rgba(255,255,255,0.18); }
+
+    .card-stat-row {
+      display: flex;
+      gap: 18px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .stat-chip {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 8px 14px;
+      flex: 1;
+      min-width: 80px;
+    }
+
+    .stat-value-input {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--accent);
+      background: transparent;
+      border: none;
+      outline: none;
+      width: 100%;
+      caret-color: var(--accent);
+    }
+    .stat-value-input::placeholder { color: rgba(167,139,250,0.3); }
+
+    .stat-label-input {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: transparent;
+      border: none;
+      outline: none;
+      width: 100%;
+      caret-color: var(--accent);
+    }
+    .stat-label-input::placeholder { color: rgba(255,255,255,0.18); }
+
+    .card-add-stat {
+      font-size: 11px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      background: transparent;
+      border: 1px dashed rgba(255,255,255,0.15);
+      border-radius: 10px;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      align-self: center;
+    }
+    .card-add-stat:hover { color: var(--accent); border-color: rgba(167,139,250,0.4); }
+
+    /* ADD CARD BUTTON */
+    .add-card-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      background: rgba(255,255,255,0.04);
+      border: 1px dashed rgba(255,255,255,0.2);
+      border-radius: 12px;
+      padding: 14px 32px;
+      cursor: pointer;
+      transition: all 0.25s;
+      margin: 8px 0 32px;
+    }
+    .add-card-btn:hover {
+      color: var(--accent);
+      border-color: rgba(167,139,250,0.5);
+      background: rgba(167,139,250,0.06);
+    }
+
+    .add-icon { font-size: 18px; line-height: 1; }
+
+    /* FOOTER NOTE */
+    .hint {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.05em;
+      text-align: center;
+      pointer-events: none;
+      z-index: 100;
+    }
+  </style>
+</head>
+<body>
+
+<!-- WARP CANVAS BACKGROUND -->
+<canvas id="warp-canvas"></canvas>
+
+<div id="app">
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-title">✦ Warp Story</div>
+    <div class="topbar-actions">
+      <button class="btn btn-ghost" onclick="exportHTML()">Export HTML</button>
+      <button class="btn btn-accent" onclick="addCard()">+ Add Card</button>
+    </div>
+  </div>
+
+  <!-- SCROLLABLE STAGE -->
+  <div class="stage">
+    <div id="cards-container"></div>
+    <button class="add-card-btn" onclick="addCard()">
+      <span class="add-icon">+</span> Add a card
+    </button>
+  </div>
+</div>
+
+<div class="hint">Click any text to edit &nbsp;·&nbsp; Hover cards for controls &nbsp;·&nbsp; + to add stats</div>
+
+<script>
+// ─── WARP CANVAS ─────────────────────────────────────────────────────────────
+const canvas = document.getElementById('warp-canvas');
+const ctx = canvas.getContext('2d');
+const NUM = 220;
+let cx, cy, streaks = [];
+
+function makeStreak(p) {
+  return {
+    angle: Math.random() * Math.PI * 2,
+    speed: 0.4 + Math.random() * 1.2,
+    width: 0.3 + Math.random() * 2.5,
+    brightness: 0.4 + Math.random() * 0.6,
+    p: p !== undefined ? p : Math.random()
+  };
+}
+
+function initStreaks() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  cx = canvas.width / 2;
+  cy = canvas.height / 2;
+  streaks = Array.from({ length: NUM }, () => makeStreak());
+}
+
+window.addEventListener('resize', initStreaks);
+initStreaks();
+
+(function drawWarp() {
+  ctx.fillStyle = 'rgba(0,0,0,0.35)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  const maxLen = Math.sqrt(cx * cx + cy * cy) * 1.3;
+
+  for (const s of streaks) {
+    s.p += s.speed * 0.004;
+    if (s.p >= 1) { Object.assign(s, makeStreak(0)); continue; }
+
+    const near = s.p * s.p * 0.6;
+    const far = Math.min(near + s.speed * 0.055, 1);
+    const x1 = cx + Math.cos(s.angle) * near * maxLen;
+    const y1 = cy + Math.sin(s.angle) * near * maxLen;
+    const x2 = cx + Math.cos(s.angle) * far * maxLen;
+    const y2 = cy + Math.sin(s.angle) * far * maxLen;
+    const alpha = s.brightness * Math.min(s.p * 4, 1);
+
+    const g = ctx.createLinearGradient(x1, y1, x2, y2);
+    g.addColorStop(0, 'rgba(0,0,0,0)');
+    g.addColorStop(0.3, `rgba(255,255,255,${alpha * 0.5})`);
+    g.addColorStop(1, `rgba(255,255,255,${alpha})`);
+
+    ctx.beginPath();
+    ctx.strokeStyle = g;
+    ctx.lineWidth = s.width * (0.2 + s.p * 1.8);
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+  }
+  requestAnimationFrame(drawWarp);
+})();
+
+// ─── CARD SYSTEM ─────────────────────────────────────────────────────────────
+let cardCount = 0;
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+}
+
+function addCard(data = {}) {
+  cardCount++;
+  const container = document.getElementById('cards-container');
+  const card = document.createElement('div');
+  card.className = 'glass-card';
+  card.dataset.id = cardCount;
+
+  card.innerHTML = `
+    <div class="card-badge">Card ${cardCount}</div>
+    <div class="card-controls">
+      <button class="card-ctrl-btn" title="Move Up" onclick="moveCard(this, -1)">↑</button>
+      <button class="card-ctrl-btn" title="Move Down" onclick="moveCard(this, 1)">↓</button>
+      <button class="card-ctrl-btn del" title="Delete" onclick="deleteCard(this)">✕</button>
+    </div>
+
+    <input class="card-tag-input" type="text" placeholder="Chapter / Tag"
+      value="${data.tag || ''}" maxlength="30">
+
+    <textarea class="card-title-input" rows="1"
+      placeholder="Your headline here…">${data.title || ''}</textarea>
+
+    <textarea class="card-body-input" rows="3"
+      placeholder="Tell your story, add context, describe what happened…">${data.body || ''}</textarea>
+
+    <div class="card-stat-row" id="stats-${cardCount}"></div>
+    <div style="margin-top:12px;">
+      <button class="card-add-stat" onclick="addStat(${cardCount})">+ Add stat</button>
+    </div>
+  `;
+
+  container.appendChild(card);
+
+  // Auto-resize textareas
+  card.querySelectorAll('textarea').forEach(ta => {
+    autoResize(ta);
+    ta.addEventListener('input', () => autoResize(ta));
+  });
+
+  // Add default stats if provided
+  if (data.stats) data.stats.forEach(s => addStat(cardCount, s));
+
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  return card;
+}
+
+function addStat(cardId, data = {}) {
+  const row = document.getElementById(`stats-${cardId}`);
+  if (!row) return;
+
+  const chip = document.createElement('div');
+  chip.className = 'stat-chip';
+  chip.innerHTML = `
+    <input class="stat-value-input" type="text" placeholder="—" value="${data.value || ''}" maxlength="12">
+    <input class="stat-label-input" type="text" placeholder="Label" value="${data.label || ''}" maxlength="20">
+  `;
+  row.appendChild(chip);
+}
+
+function moveCard(btn, dir) {
+  const card = btn.closest('.glass-card');
+  const container = document.getElementById('cards-container');
+  const cards = [...container.children];
+  const idx = cards.indexOf(card);
+  const target = cards[idx + dir];
+  if (!target) return;
+  if (dir === -1) container.insertBefore(card, target);
+  else container.insertBefore(target, card);
+  renumberCards();
+}
+
+function deleteCard(btn) {
+  const card = btn.closest('.glass-card');
+  card.style.transition = 'opacity 0.25s, transform 0.25s';
+  card.style.opacity = '0';
+  card.style.transform = 'scale(0.95)';
+  setTimeout(() => { card.remove(); renumberCards(); }, 260);
+}
+
+function renumberCards() {
+  document.querySelectorAll('.glass-card').forEach((card, i) => {
+    const badge = card.querySelector('.card-badge');
+    if (badge) badge.textContent = `Card ${i + 1}`;
+  });
+}
+
+function exportHTML() {
+  const cards = [...document.querySelectorAll('.glass-card')];
+  let cardsHTML = '';
+
+  cards.forEach((card, i) => {
+    const tag = card.querySelector('.card-tag-input')?.value || '';
+    const title = card.querySelector('.card-title-input')?.value || '';
+    const body = card.querySelector('.card-body-input')?.value || '';
+    const stats = [...card.querySelectorAll('.stat-chip')].map(chip => ({
+      value: chip.querySelector('.stat-value-input')?.value || '',
+      label: chip.querySelector('.stat-label-input')?.value || ''
+    }));
+
+    const statsHTML = stats.map(s => `
+      <div class="stat-chip">
+        <div class="stat-value">${s.value}</div>
+        <div class="stat-label">${s.label}</div>
+      </div>`).join('');
+
+    cardsHTML += `
+    <div class="glass-card">
+      <div class="card-badge">Card ${i + 1}</div>
+      ${tag ? `<div class="card-tag">${tag}</div>` : ''}
+      ${title ? `<h2 class="card-title">${title}</h2>` : ''}
+      ${body ? `<p class="card-body">${body}</p>` : ''}
+      ${stats.length ? `<div class="card-stat-row">${statsHTML}</div>` : ''}
+    </div>`;
+  });
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Warp Story — Export</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:#000;min-height:100vh;overflow-x:hidden;color:#fff}
+#warp-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
+.stage{position:relative;z-index:10;padding:60px 0 80px;display:flex;flex-direction:column;align-items:center;gap:0}
+.glass-card{position:relative;width:min(560px,90vw);margin:28px 0;padding:36px 38px 30px;background:rgba(255,255,255,0.07);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.18);border-radius:18px;box-shadow:0 8px 48px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.12)}
+.glass-card+.glass-card::before{content:'';position:absolute;top:-28px;left:50%;transform:translateX(-50%);width:1px;height:28px;background:linear-gradient(to bottom,transparent,rgba(167,139,250,.5))}
+.card-badge{position:absolute;top:-12px;left:32px;background:#a78bfa;color:#0f0720;font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:.07em;padding:3px 10px;border-radius:20px;text-transform:uppercase}
+.card-tag{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#34d399;margin-bottom:12px}
+.card-title{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;line-height:1.15;margin-bottom:14px}
+.card-body{font-size:15px;font-weight:300;font-style:italic;line-height:1.7;color:rgba(255,255,255,.65)}
+.card-stat-row{display:flex;gap:18px;margin-top:20px;flex-wrap:wrap}
+.stat-chip{display:flex;flex-direction:column;gap:2px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px 14px;flex:1;min-width:80px}
+.stat-value{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#a78bfa}
+.stat-label{font-size:11px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.06em}
+</style>
+</head>
+<body>
+<canvas id="warp-canvas"></canvas>
+<div class="stage">${cardsHTML}</div>
+<script>
+const canvas=document.getElementById('warp-canvas');const ctx=canvas.getContext('2d');
+const NUM=220;let cx,cy,streaks=[];
+function makeStreak(p){return{angle:Math.random()*Math.PI*2,speed:0.4+Math.random()*1.2,width:0.3+Math.random()*2.5,brightness:0.4+Math.random()*0.6,p:p!==undefined?p:Math.random()}}
+function initStreaks(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;cx=canvas.width/2;cy=canvas.height/2;streaks=Array.from({length:NUM},()=>makeStreak())}
+window.addEventListener('resize',initStreaks);initStreaks();
+(function draw(){ctx.fillStyle='rgba(0,0,0,0.35)';ctx.fillRect(0,0,canvas.width,canvas.height);const maxLen=Math.sqrt(cx*cx+cy*cy)*1.3;for(const s of streaks){s.p+=s.speed*0.004;if(s.p>=1){Object.assign(s,makeStreak(0));continue}const near=s.p*s.p*0.6;const far=Math.min(near+s.speed*0.055,1);const x1=cx+Math.cos(s.angle)*near*maxLen;const y1=cy+Math.sin(s.angle)*near*maxLen;const x2=cx+Math.cos(s.angle)*far*maxLen;const y2=cy+Math.sin(s.angle)*far*maxLen;const alpha=s.brightness*Math.min(s.p*4,1);const g=ctx.createLinearGradient(x1,y1,x2,y2);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(0.3,\`rgba(255,255,255,\${alpha*0.5})\`);g.addColorStop(1,\`rgba(255,255,255,\${alpha})\`);ctx.beginPath();ctx.strokeStyle=g;ctx.lineWidth=s.width*(0.2+s.p*1.8);ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke()}requestAnimationFrame(draw)})();
+<\/script>
+</body>
+</html>`;
+
+  const blob = new Blob([html], { type: 'text/html' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'warp_story_export.html';
+  a.click();
+}
+
+// ─── SEED WITH DEMO CARDS ────────────────────────────────────────────────────
+addCard({
+  tag: 'Chapter 01',
+  title: 'The Journey Begins',
+  body: 'Every great story starts with a single step into the unknown. This is yours — told against the fabric of space itself.',
+  stats: [{ value: '∞', label: 'Possibilities' }, { value: '1', label: 'Direction' }]
+});
+
+addCard({
+  tag: 'Chapter 02',
+  title: 'Key Milestone',
+  body: 'Edit this card to describe your turning point. Numbers, context, and meaning belong here.',
+  stats: [{ value: '2.4×', label: 'Growth' }, { value: '94%', label: 'Success Rate' }]
+});
+
+addCard({
+  tag: 'Chapter 03',
+  title: 'What Comes Next',
+  body: 'Add more cards to continue the story. Rearrange them, rename chapters, and fill in your stats.',
+});
+</script>
+</body>
+</html>
