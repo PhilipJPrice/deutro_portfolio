@@ -50,6 +50,11 @@ app.get('/illustrations/posters-2023-2024', (req, res) => {
     res.render('illustrations/illustrations', { title: 'Posters 2023-2024' });
 })
 
+app.get('/illustrations/posters-2025-2026', (req, res) => {
+    res.render('illustrations/illustrations_2025-2026', { title: 'Posters 2025-2026' });
+})
+
+
 app.get('/web-pages/warp-story', (req, res) => {
     res.render('web_pages/warp_story', { title: 'Warp Story' });
 })
