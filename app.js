@@ -46,6 +46,10 @@ app.get('/animations/pendulum', (req, res) => {
     res.render('animations/pendulum', { title: 'Pendulum' });
 })
 
+app.get('/animations/advertisement-compilation-2026', (req, res) => {
+    res.render('animations/advertisement_compilation_2026', { title: 'Advertisement Compilation 2026' });
+})
+
 app.get('/illustrations/posters-2023-2024', (req, res) => {
     res.render('illustrations/illustrations', { title: 'Posters 2023-2024' });
 })
